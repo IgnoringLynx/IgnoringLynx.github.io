@@ -1,261 +1,314 @@
 <!DOCTYPE html>
 <html lang="ru">
+<body oncontextmenu="return false;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DDNet Guide</title>
     <style>
 :root {
-        --primary-bg: #1a1a1a;
-        --secondary-bg: #2d2d2d;
-        --accent: #00aaff;
-        --text: #e6e6e6;
-        --hover: #333;
-    }
+    --primary-bg: #1a1a1a;
+    --secondary-bg: #2d2d2d;
+    --accent: #00aaff;
+    --text: #e6e6e6;
+    --hover: #333;
+}
 
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: var(--primary-bg);
-            color: var(--text);
-            line-height: 1.8;
-        }
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: var(--primary-bg);
+    color: var(--text);
+    line-height: 1.8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background: var(--secondary-bg);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: var(--secondary-bg);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    width: 100%;
+    box-sizing: border-box;
+}
 
-        .header h1 {
-            margin: 0;
-            font-size: 1.8rem;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-            background: linear-gradient(45deg, var(--accent), #00ddff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+.header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    background: linear-gradient(45deg, var(--accent), #00ddff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-        .menu-btn {
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            padding: 8px;
-            border-radius: 50%;
-        }
+.menu-btn {
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: transparent;
+}
 
-        .menu-btn:hover {
-            background: var(--hover);
-        }
+.menu-btn:hover {
+    background: var(--hover);
+}
 
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 300px;
-            height: 100%;
-            background: var(--secondary-bg);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 20px 0;
-            box-shadow: -4px 0 16px rgba(0,0,0,0.3);
-            z-index: 999;
-        }
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background: var(--secondary-bg);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 20px 0;
+    box-shadow: -4px 0 16px rgba(0,0,0,0.3);
+    z-index: 999;
+}
 
-        .sidebar a {
-            display: flex;
-            align-items: center;
-            padding: 1rem 2rem;
-            color: var(--text);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            margin: 4px 12px;
-            border-radius: 8px;
-        }
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin: 4px 12px;
+    border-radius: 8px;
+}
 
-        .sidebar a:hover {
-            background: var(--hover);
-            transform: translateX(-8px);
-        }
+.sidebar a:hover {
+    background: var(--hover);
+    transform: translateX(-8px);
+}
 
-        .content {
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+.content {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box;
+}
 
-        .tab-container {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 2rem;
-            padding-bottom: 8px;
-            overflow-x: auto;
-        }
+.tab-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 2rem;
+    padding-bottom: 8px;
+    overflow-x: auto;
+}
 
-        .tab {
-            background: var(--secondary-bg);
-            padding: 0.8rem 1.2rem;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
+.tab {
+    background: var(--secondary-bg);
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease, background 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
 
-        .static-tab {
-            background: var(--accent) !important;
-            cursor: default !important;
-        }
+.tab.active-tab {
+    background: var(--accent) !important;
+    color: #fff !important;
+}
 
-        .static-tab:hover {
-            transform: none !important;
-        }
+.static-tab {
+    background: var(--accent) !important;
+    cursor: default !important;
+    color: #fff !important;
+}
 
-        .tab:hover {
-            background: var(--hover);
-            transform: translateY(-2px);
-        }
+.tab:hover {
+    background: var(--hover);
+    transform: translateY(-2px);
+}
 
-        .close-btn {
-            color: #ff4444;
-            font-weight: bold;
-            margin-left: 6px;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
+.close-btn {
+    color: #ff4444;
+    font-weight: bold;
+    margin-left: 6px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
 
-        .close-btn:hover {
-            opacity: 1;
-        }
+.close-btn:hover {
+    opacity: 1;
+}
 
-        .page {
-            display: none;
-            animation: fadeIn 0.4s ease-out;
-        }
+.page {
+    display: none;
+    animation: fadeIn 0.4s ease-out;
+}
 
-        .active {
-            display: block;
-        }
+.active {
+    display: block;
+}
 
-        .card {
-            background: var(--secondary-bg);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-        }
+.card {
+    background: var(--secondary-bg);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
 
-        h2 {
-            font-size: 2rem;
-            margin: 0 0 1.5rem;
-            color: var(--accent);
-            text-align: center;
-            position: relative;
-            padding-bottom: 1rem;
-        }
+h2 {
+    font-size: 2rem;
+    margin: 0 0 1.5rem;
+    color: var(--accent);
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+}
 
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 2px;
-        }
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+}
 
-        h3 {
-            font-size: 1.4rem;
-            margin: 1.5rem 0 1rem;
-            color: var(--accent);
-        }
+h3 {
+    font-size: 1.4rem;
+    margin: 1.5rem 0 1rem;
+    color: var(--accent);
+}
 
-        ul {
-            padding-left: 0;
-            list-style: none;
-        }
+ul {
+    padding-left: 0;
+    list-style: none;
+}
 
-        li {
-            margin: 1rem 0;
-            padding: 1.5rem;
-            background: var(--primary-bg);
-            border-left: 3px solid var(--accent);
-            border-radius: 6px;
-            transition: transform 0.3s ease;
-        }
+li {
+    margin: 1rem 0;
+    padding: 1.5rem;
+    background: var(--primary-bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    transition: transform 0.3s ease;
+}
 
-        li:hover {
-            transform: translateX(8px);
-        }
+li:hover {
+    transform: translateX(8px);
+}
 
-        a {
-            color: var(--accent);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.3s;
+}
 
-        a:hover {
-            color: #00ddff;
-        }
+a:hover {
+    color: #00ddff;
+}
 
 @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
 
-        ::-webkit-scrollbar-track {
-            background: var(--primary-bg);
-        }
+::-webkit-scrollbar-track {
+    background: var(--primary-bg);
+}
 
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 4px;
-        }
+::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+}
+
+.rules-footer {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: var(--primary-bg);
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.rules-footer p {
+    margin: 0.8rem 0;
+    font-size: 0.95rem;
+}
+
+.rules-footer a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.rules-footer a:hover {
+    color: #00ddff;
+}
+
+.footer {
+    background: var(--secondary-bg);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin-top: auto;
+}
+
+.footer p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+.footer a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer a:hover {
+    color: #00ddff;
+}
 
 @media (max-width: 768px) {
-            .content {
-                padding: 1rem;
-            }
+    .content {
+        padding: 1rem;
+    }
 
-            .card {
-                padding: 1.5rem;
-            }
+    .card {
+        padding: 1.5rem;
+    }
 
-            h2 {
-                font-size: 1.6rem;
-            }
-        }
+    h2 {
+        font-size: 1.6rem;
+    }
 
-        .rules-footer {
-            margin-top: 2rem;
-            padding: 1rem;
-            background: var(--primary-bg);
-            border-radius: 8px;
-            text-align: center;
-        }
+    .footer {
+        padding: 1rem;
+    }
+}
     </style>
     <script>
         function toggleMenu() {
@@ -290,15 +343,26 @@
             const tab = document.getElementById(`tab-${contentId}`);
             if (tab) tab.remove();
 
-            const page = document.getElementById(contentId);
-            if (page) page.style.display = "none";
-
             const tabs = document.querySelectorAll(".tab");
-            tabs.length > 0
-            ? showPage(tabs[tabs.length-1].id.replace("tab-", "")): showPage("home");
+            tabs.forEach(t => t.classList.remove("active-tab"));
+            
+            if (tabs.length > 0) {
+                const lastTab = tabs[tabs.length - 1];
+                lastTab.classList.add("active-tab");
+                showPage(lastTab.id.replace("tab-", ""));
+            } else {
+                showPage("home");
+            }
         }
 
         function showPage(contentId) {
+            document.querySelectorAll(".tab").forEach(tab => {
+                tab.classList.remove("active-tab");
+            });
+            
+            const activeTab = document.getElementById(`tab-${contentId}`);
+            if (activeTab) activeTab.classList.add("active-tab");
+            
             document.querySelectorAll(".page").forEach(page => {
                 page.style.display = "none";
                 page.classList.remove("active");
@@ -314,7 +378,7 @@
         window.onload = () => {
             showPage("home");
             const homeTab = document.createElement("div");
-            homeTab.className = "tab static-tab";
+            homeTab.className = "tab static-tab active-tab";
             homeTab.innerHTML = "Главная";
             homeTab.onclick = () => showPage("home");
             document.getElementById("tab-container").prepend(homeTab);
@@ -331,9 +395,7 @@
 <body>
     <div class="header">
         <h1>DDNet Guide</h1>
-        <div class="menu-btn" onclick="toggleMenu()">
-            ☰
-        </div>
+        <div class="menu-btn" onclick="toggleMenu()">☰</div>
     </div>
 
     <div class="sidebar" id="sidebar">
@@ -377,11 +439,11 @@
 
                 <h3>Правила для обычных участников</h3>
                 <ul>
-                    <li>1. Запрещено оскорблять участников чата без той или иной причины - удаление сообщения, в случае повторного нарушения мут на 2 часа.</li>
-                    <li>2. Запрещено оскорблять родственников/родителей участников чата - бан навсегда.</li>
-                    <li>3. Запрещено устраивать конфликты в чате, если у вас конфликт вы должны пойти его обсуждать в личные сообщения между собой - удаление сообщений в случае продолжения конфликтах варн/мут по усмотрению администрации.</li>
-                    <li>4. Запрещены угрозы в сторону пользователей и администраторов чата - удаление сообщения/варн/мут/бан навсегда.</li>
-                    <li>5. Запрещено токсичное поведение по отношению к участникам чата а так же к администрации - варн/мут/бан по усмотрению администрации.</li>
+                    <li>1. Запрещено оскорблять участников чата без причины — удаление сообщения, при повторном нарушении — мут на 2 часа.</li>
+                    <li>2. Запрещено оскорблять родственников/родителей — бан навсегда.</li>
+                    <li>3. Конфликты разрешаются в личных сообщениях — при продолжении в чате: удаление сообщений/варн/мут.</li>
+                    <li>4. Угрозы в адрес пользователей или администрации — бан навсегда.</li>
+                    <li>5. Токсичное поведение — санкции по усмотрению администрации.</li>
                 </ul>
 
                 <h3>Правила для администраторов</h3>
@@ -403,10 +465,11 @@
 
                 <div class="rules-footer">
                     <p>
-                        Доступ к правилам можно получить по команде <b>/rules</b> или просто написав "правила".
+                        Доступ к правилам можно получить по команде <b>/rules</b><br>
+                        или просто написав "правила" в чате.
                     </p>
                     <p>
-                        Правила были созданы при поддержке:
+                        Правила были созданы при поддержке:<br>
                         <a href="https://t.me/IgnoringLynx618">@IgnoringLynx618</a> и
                         <a href="https://t.me/GooglePixelUser">@GooglePixelUser</a>.
                     </p>
@@ -422,11 +485,11 @@
                     <li><a href="https://t.me/DDNetGuide/444">📂 Доступ к папке Data</a></li>
                     <li><a href="https://t.me/DDNetGuide/27">🎮 Установка текстур блоков</a></li>
                     <li><a href="https://t.me/DDNetGuide/28">🔫 Установка текстур оружия</a></li>
-                    <li><a href="https://t.me/DDNetGuide/29">😀 Уставнока текстур эмоций, партиклов, курсора, худа</a></li>
+                    <li><a href="https://t.me/DDNetGuide/29">😀 Установка текстур эмоций, партиклов, курсора, худа</a></li>
                     <li><a href="https://t.me/DDNetGuide/30">🎧 Установка звуков</a></li>
                     <li><a href="https://t.me/DDNetGuide/32">👤 Установка своего скина</a></li>
                     <li><a href="https://t.me/DDNetGuide/36">🌄 Установка фонов для карт</a></li>
-                    <li><a href="https://t.me/DDNetGuide/75">💻 Уставнока фонов для меню</a></li>
+                    <li><a href="https://t.me/DDNetGuide/75">💻 Установка фонов для меню</a></li>
                 </ul>
             </div>
         </div>
@@ -439,17 +502,17 @@
                 <div class="faq-item">
                     <h3>Проблемы с установкой текстур?</h3>
                     <p>
-                        Обратитесь в наш <a href="https://t.me/DDNetGuideChat">чат поддержки</a>, где помощники:
-                        <br>1. Проверят правильность установки
-                        <br>2. Предоставят актуальные гайды
-                        <br>3. Помогут решить сложные случаи
+                        Обратитесь в <a href="https://t.me/DDNetGuideChat">чат поддержки</a>:
+                        <br>1. Проверка установки
+                        <br>2. Актуальные гайды
+                        <br>3. Решение сложных случаев
                     </p>
                 </div>
 
                 <div class="faq-item">
                     <h3>Как стать администратором?</h3>
                     <p>
-                        Администрация назначается владельцем сообщества. Критерии отбора:
+                        Критерии отбора:
                         <br>• Активность в чате
                         <br>• Знание правил
                         <br>• Техническая грамотность
@@ -457,16 +520,22 @@
                 </div>
 
                 <div class="faq-item">
-                    <h3>Баны и мут-апелляции</h3>
+                    <h3>Обжалование банов</h3>
                     <p>
-                        Для обжалования санкций напишите:
-                        <br>• @IgnoringLynx618 (владелец)
-                        <br>• Укажите причину и дату бана
-                        <br>• Приложите доказательства
+                        Напишите:
+                        <br>• @IgnoringLynx618
+                        <br>• Причина и дата бана
+                        <br>• Доказательства
                     </p>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Нижний колонтитул -->
+    <footer class="footer">
+        <p>Designed by <a href="https://t.me/IgnoringLynx618">@IgnoringLynx618</a></p>
+        <p>© 2025 «DDNetGuide»</p>
+    </footer>
 </body>
-  </html>
+</html>
