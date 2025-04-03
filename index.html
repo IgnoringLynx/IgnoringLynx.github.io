@@ -1,496 +1,375 @@
 <!DOCTYPE html>
 <html lang="ru">
-<body oncontextmenu="return false;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap" rel="stylesheet">
     <title>DDNet Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300..700&display=swap" rel="stylesheet">
     <style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 :root {
-    --primary-bg: #1a1a1a;
-    --secondary-bg: #2d2d2d;
-    --accent: #00aaff;
-    --text: #e6e6e6;
-    --hover: #333;
+    --primary: #6750A4;
+    --on-primary: #FFFFFF;
+    --primary-container: #EADDFF;
+    --secondary: #625B71;
+    --on-secondary: #FFFFFF;
+    --surface: #FEF7FF;
+    --surface-dim: #DED8E1;
+    --outline: #79747E;
+    --surface-container: #F3EDF7;
+    --scrim: rgba(0, 0, 0, 0.32);
+    
+    --radius-xs: 4px;
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 28px;
+    
+    --elevation-1: 0 1px 3px rgba(0, 0, 0, 0.12);
+    --elevation-2: 0 4px 8px rgba(0, 0, 0, 0.14);
+    
+    --transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: var(--primary-bg);
-    color: var(--text);
-    line-height: 1.8;
+    font-family: 'Roboto Flex', sans-serif;
+    background: var(--surface);
+    color: #1C1B1F;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
+/* Header */
 .header {
+    background: var(--surface);
+    padding: 16px 24px;
+    box-shadow: var(--elevation-1);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
-    background: var(--secondary-bg);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    position: sticky;
+    top: 0;
+    z-index: 10;
     width: 100%;
-    box-sizing: border-box;
 }
 
 .header h1 {
-    margin: 0;
-    font-size: 1.8rem;
+    font-size: 22px;
     font-weight: 600;
-    letter-spacing: -0.5px;
-    background: linear-gradient(45deg, var(--accent), #00ddff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--primary);
+    letter-spacing: 0.15px;
 }
 
 .menu-btn {
-    font-size: 1.8rem;
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+    color: var(--primary);
     cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 8px 12px;
-    border-radius: 8px;
-    background: transparent;
+    transition: background var(--transition);
 }
 
 .menu-btn:hover {
-    background: var(--hover);
+    background: rgba(103, 80, 164, 0.08);
 }
 
+/* Обновленный Sidebar */
 .sidebar {
     position: fixed;
     top: 0;
-    right: -300px;
+    right: -100%;
     width: 300px;
     height: 100%;
-    background: var(--secondary-bg);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 20px 0;
-    box-shadow: -4px 0 16px rgba(0,0,0,0.3);
-    z-index: 999;
+    background: var(--surface);
+    transition: transform var(--transition);
+    box-shadow: var(--elevation-2);
+    z-index: 1000;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sidebar.open {
+    transform: translateX(-100%);
 }
 
 .sidebar a {
     display: flex;
     align-items: center;
-    padding: 1rem 2rem;
-    color: var(--text);
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    color: var(--secondary);
     text-decoration: none;
-    transition: all 0.3s ease;
-    margin: 4px 12px;
-    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all var(--transition);
 }
 
 .sidebar a:hover {
-    background: var(--hover);
-    transform: translateX(-8px);
+    background: var(--surface-container);
+    color: var(--primary);
+}
+
+/* Центрирование контента */
+#instructions .card,
+#faq .card {
+    text-align: center;
+}
+
+#instructions ul,
+#faq .faq-item {
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+    max-width: 700px;
 }
 
 .content {
-    padding: 2rem;
+    flex: 1;
+    padding: 32px 24px;
     max-width: 1200px;
     margin: 0 auto;
-    flex: 1;
     width: 100%;
-    box-sizing: border-box;
 }
 
 .tab-container {
     display: flex;
     gap: 8px;
-    margin-bottom: 2rem;
-    padding-bottom: 8px;
+    margin-bottom: 32px;
     overflow-x: auto;
+    padding-bottom: 8px;
 }
 
 .tab {
-    background: var(--secondary-bg);
-    padding: 0.8rem 1.2rem;
-    border-radius: 8px;
+    background: var(--surface-container);
+    padding: 12px 24px;
+    border-radius: var(--radius-lg);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--secondary);
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.9rem;
-    transition: all 0.3s ease, background 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all var(--transition);
+    border: 1px solid var(--outline);
+    box-shadow: var(--elevation-1);
+    white-space: nowrap;
 }
 
-.tab.active-tab {
-    background: var(--accent) !important;
-    color: #fff !important;
-}
-
-.static-tab {
-    background: var(--accent) !important;
-    cursor: default !important;
-    color: #fff !important;
-}
-
-.tab:hover {
-    background: var(--hover);
-    transform: translateY(-2px);
-}
-
-.close-btn {
-    color: #ff4444;
-    font-weight: bold;
-    margin-left: 6px;
-    opacity: 0.7;
-    transition: opacity 0.2s;
-}
-
-.close-btn:hover {
-    opacity: 1;
-}
-
-.page {
-    display: none;
-    animation: fadeIn 0.4s ease-out;
-}
-
-.active {
-    display: block;
+.tab.active {
+    background: var(--primary-container);
+    color: var(--primary);
+    border-color: transparent;
 }
 
 .card {
-    background: var(--secondary-bg);
-    border-radius: 12px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid var(--surface-dim);
+    box-shadow: var(--elevation-1);
 }
 
 h2 {
-    font-size: 2rem;
-    margin: 0 0 1.5rem;
-    color: var(--accent);
-    text-align: center;
-    position: relative;
-    padding-bottom: 1rem;
-}
-
-h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: var(--accent);
-    border-radius: 2px;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 24px;
+    color: var(--primary);
+    letter-spacing: 0.15px;
 }
 
 h3 {
-    font-size: 1.4rem;
-    margin: 1.5rem 0 1rem;
-    color: var(--accent);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 24px 0 16px;
+    color: var(--primary);
 }
 
 ul {
-    padding-left: 0;
+    padding: 0;
+    margin: 0;
     list-style: none;
 }
 
 li {
-    margin: 1rem 0;
-    padding: 1.5rem;
-    background: var(--primary-bg);
-    border-left: 3px solid var(--accent);
-    border-radius: 6px;
-    transition: transform 0.3s ease;
+    padding: 16px;
+    margin: 8px 0;
+    background: var(--surface-container);
+    border-radius: var(--radius-sm);
+    transition: transform var(--transition);
+    border-left: 4px solid var(--primary-container);
 }
 
 li:hover {
-    transform: translateX(8px);
+    transform: translateY(-2px);
 }
 
 a {
-    color: var(--accent);
+    color: var(--primary);
     text-decoration: none;
-    transition: color 0.3s;
+    font-weight: 500;
+    position: relative;
 }
 
-a:hover {
-    color: #00ddff;
+a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width var(--transition);
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+a:hover::after {
+    width: 100%;
 }
 
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+.page {
+    display: none;
+    animation: fadeIn 0.3s ease-out;
 }
 
-::-webkit-scrollbar-track {
-    background: var(--primary-bg);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--accent);
-    border-radius: 4px;
+.page.active {
+    display: block;
 }
 
 .footer {
-    background: var(--secondary-bg);
-    padding: 1.5rem 2rem;
+    background: var(--surface-container);
+    padding: 24px;
     text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.1);
     margin-top: auto;
+    width: 100%;
 }
 
-.footer p {
-    margin: 0.5rem 0;
-    font-size: 0.9rem;
-    color: var(--text);
-}
-
-.footer a {
-    color: var(--accent);
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer a:hover {
-    color: #00ddff;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 768px) {
     .content {
-        padding: 1rem;
+        padding: 24px 16px;
     }
-
+    
     .card {
-        padding: 1.5rem;
+        padding: 16px;
     }
-
-    h2 {
-        font-size: 1.6rem;
-    }
-
-    .footer {
-        padding: 1rem;
+    
+    .tab {
+        padding: 12px 20px;
     }
 }
     </style>
-    <script>
-        function toggleMenu() {
-            const sidebar = document.getElementById("sidebar");
-            sidebar.style.right = sidebar.style.right === "0px" ? "-300px": "0px";
-        }
-
-        function closeSidebar() {
-            document.getElementById("sidebar").style.right = "-300px";
-        }
-
-        function openTab(title, contentId) {
-            const tabContainer = document.getElementById("tab-container");
-            const existingTab = document.getElementById(`tab-${contentId}`);
-
-            if (!existingTab && contentId !== 'home') {
-                const tab = document.createElement("div");
-                tab.className = "tab";
-                tab.id = `tab-${contentId}`;
-                tab.innerHTML = `${title} <span class="close-btn" onclick="closeTab('${contentId}')">×</span>`;
-                tab.onclick = () => {
-                    showPage(contentId); closeSidebar();
-                };
-                tabContainer.appendChild(tab);
-            }
-            showPage(contentId);
-            closeSidebar();
-        }
-
-        function closeTab(contentId) {
-            if (contentId === 'home') return;
-            const tab = document.getElementById(`tab-${contentId}`);
-            if (tab) tab.remove();
-
-            const tabs = document.querySelectorAll(".tab");
-            tabs.forEach(t => t.classList.remove("active-tab"));
-            
-            if (tabs.length > 0) {
-                const lastTab = tabs[tabs.length - 1];
-                lastTab.classList.add("active-tab");
-                showPage(lastTab.id.replace("tab-", ""));
-            } else {
-                showPage("home");
-            }
-        }
-
-        function showPage(contentId) {
-            document.querySelectorAll(".tab").forEach(tab => {
-                tab.classList.remove("active-tab");
-            });
-            
-            const activeTab = document.getElementById(`tab-${contentId}`);
-            if (activeTab) activeTab.classList.add("active-tab");
-            
-            document.querySelectorAll(".page").forEach(page => {
-                page.style.display = "none";
-                page.classList.remove("active");
-            });
-
-            const page = document.getElementById(contentId);
-            if (page) {
-                page.style.display = "block";
-                page.classList.add("active");
-            }
-        }
-
-        window.onload = () => {
-            showPage("home");
-            const homeTab = document.createElement("div");
-            homeTab.className = "tab static-tab active-tab";
-            homeTab.innerHTML = "Главная";
-            homeTab.onclick = () => showPage("home");
-            document.getElementById("tab-container").prepend(homeTab);
-
-            document.addEventListener("click", (event) => {
-                const sidebar = document.getElementById("sidebar");
-                if (!sidebar.contains(event.target) && event.target !== document.querySelector(".menu-btn")) {
-                    closeSidebar();
-                }
-            });
-        };
-    </script>
 </head>
 <body>
-    <div class="header">
+    <header class="header">
         <h1>DDNet Guide</h1>
-        <div class="menu-btn" onclick="toggleMenu()">☰</div>
-    </div>
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </header>
 
-    <div class="sidebar" id="sidebar">
+    <nav class="sidebar" id="sidebar">
         <a onclick="openTab('Главная', 'home')">🏠 Главная</a>
         <a onclick="openTab('Правила', 'rules')">📜 Правила</a>
         <a onclick="openTab('Инструкции', 'instructions')">🛠️ Инструкции</a>
         <a onclick="openTab('FAQ', 'faq')">❓ FAQ</a>
-    </div>
+    </nav>
 
-    <div class="content">
+    <main class="content">
         <div class="tab-container" id="tab-container"></div>
-
-        <!-- Главная страница -->
+        
         <div class="page active" id="home">
             <div class="card">
                 <h2>Добро пожаловать в DDNet Guide!</h2>
-                <p>
-                    Приветствуем вас на нашем канале, посвященном невероятной игре DDNet! Мы создали этот ресурс для всех поклонников игры, чтобы делиться полезной информацией, новостями и гайдами.
+                <p style="line-height: 1.6;">
+                    Приветствуем вас в обновлённом сообществе DDNet! Теперь с современным Material You дизайном, который делает использование ещё удобнее.
                 </p>
 
-                <h3>Что вы найдёте у нас:</h3>
+                <h3>Основные возможности</h3>
                 <ul>
-                    <li>🔥 Актуальные новости и обновления</li>
-                    <li>🎮 Видеоуроки и текстовые гайды</li>
-                    <li>💡 Советы по прохождению сложных уровней</li>
-                    <li>🎨 Кастомизация игрового интерфейса</li>
-                    <li>📚 База знаний для новичков и профи</li>
+                    <li>🎨 Адаптивный дизайн с динамическими цветами</li>
+                    <li>📱 Оптимизация для всех устройств</li>
+                    <li>✨ Плавные анимации взаимодействия</li>
+                    <li>🔧 Удобная навигация и поиск</li>
                 </ul>
-
-                <h3>Наше сообщество</h3>
-                <p>
-                    Присоединяйтесь к нашему чату @DDNetGuideChat, где вы сможете общаться с другими игроками, задавать вопросы и делиться своими достижениями!
-                </p>
             </div>
         </div>
 
-        <!-- Правила -->
         <div class="page" id="rules">
             <div class="card">
                 <h2>📜 Правила чата</h2>
-
-                <h3>Правила для обычных участников</h3>
+                <h3>Для участников</h3>
                 <ul>
-                    <li>1. Запрещено оскорблять участников чата без причины — удаление сообщения, при повторном нарушении — мут на 2 часа.</li>
-                    <li>2. Запрещено оскорблять родственников/родителей — бан навсегда.</li>
-                    <li>3. Конфликты разрешаются в личных сообщениях — при продолжении в чате: удаление сообщений/варн/мут.</li>
-                    <li>4. Угрозы в адрес пользователей или администрации — бан навсегда.</li>
-                    <li>5. Токсичное поведение — санкции по усмотрению администрации.</li>
+                    <li>1. Оскорбления — удаление сообщения / мут на 2 часа</li>
+                    <li>2. Оскорбление родственников — пермабан</li>
+                    <li>3. Конфликты в ЛС — нарушение: варн/мут</li>
+                    <li>4. Угрозы — пермабан</li>
+                    <li>5. Токсичность — санкции от админов</li>
                 </ul>
 
-                <h3>Правила для администраторов</h3>
+                <h3>Для администраторов</h3>
                 <ul>
                     <li>⚡ Запрещено злоупотребление правами</li>
                     <li>🛡️ Обязанность поддерживать порядок</li>
-                    <li>📛 Ответственность за действия ботов</li>
+                    <li>📛 Ответственность за ботов</li>
                 </ul>
 
                 <h3>Состав администрации</h3>
                 <ul>
-                    <li>👑 <a href="https://t.me/IgnoringLynx618">@IgnoringLynx618</a> Владелец</li>
-                    <li>🛡️ <a href="https://t.me/sschlntpybln">@sschlntpybln</a> Администратор №1</li>
-                    <li>🛡️ <a href="https://t.me/Tergyl">@Tergyl</a> Администратор №2</li>
-                    <li>🛡️ <a href="https://t.me/sylrox">@sylrox</a> Администратор №3</li>
-                    <li>🛡️ <a href="https://t.me/black0re0">@black0re0</a> Администратор №4</li>
-                    <li>🛡️ <a href="https://t.me/QwelsyQQ">@QwelsyQQ</a> Администратор №5</li>
+                    <li>👑 <a href="https://t.me/IgnoringLynx618">@IgnoringLynx618</a></li>
+                    <li>🛡️ <a href="https://t.me/sschlntpybln">@sschlntpybln</a></li>
+                    <li>🛡️ <a href="https://t.me/Tergyl">@Tergyl</a></li>
+                    <li>🛡️ <a href="https://t.me/sylrox">@sylrox</a></li>
+                    <li>🛡️ <a href="https://t.me/black0re0">@black0re0</a></li>
+                    <li>🛡️ <a href="https://t.me/QwelsyQQ">@QwelsyQQ</a></li>
                 </ul>
-
-                <div class="rules-footer">
-                    <p>
-                        Доступ к правилам: <b>/rules</b> или напишите "правила".
-                    </p>
-                    <p>
-                        Создано при поддержке:
-                        <a href="https://t.me/IgnoringLynx618">@IgnoringLynx618</a> и
-                        <a href="https://t.me/GooglePixelUser">@GooglePixelUser</a>.
-                    </p>
-                </div>
             </div>
         </div>
 
-        <!-- Инструкции -->
         <div class="page" id="instructions">
             <div class="card">
                 <h2>🛠️ Инструкции</h2>
                 <ul>
                     <li><a href="https://t.me/DDNetGuide/444">📂 Доступ к папке Data</a></li>
-                    <li><a href="https://t.me/DDNetGuide/27">🎮 Установка текстур блоков</a></li>
-                    <li><a href="https://t.me/DDNetGuide/28">🔫 Установка текстур оружия</a></li>
-                    <li><a href="https://t.me/DDNetGuide/29">😀 Установка текстур эмоций, партиклов, курсора, худа</a></li>
-                    <li><a href="https://t.me/DDNetGuide/30">🎧 Установка звуков</a></li>
-                    <li><a href="https://t.me/DDNetGuide/32">👤 Установка своего скина</a></li>
-                    <li><a href="https://t.me/DDNetGuide/36">🌄 Установка фонов для карт</a></li>
-                    <li><a href="https://t.me/DDNetGuide/75">💻 Установка фонов для меню</a></li>
+                    <li><a href="https://t.me/DDNetGuide/27">🎮 Текстуры блоков</a></li>
+                    <li><a href="https://t.me/DDNetGuide/28">🔫 Текстуры оружия</a></li>
+                    <li><a href="https://t.me/DDNetGuide/29">😀 Эмоции и партиклы</a></li>
+                    <li><a href="https://t.me/DDNetGuide/30">🎧 Звуки</a></li>
+                    <li><a href="https://t.me/DDNetGuide/32">👤 Свой скин</a></li>
+                    <li><a href="https://t.me/DDNetGuide/36">🌄 Фоны карт</a></li>
+                    <li><a href="https://t.me/DDNetGuide/75">💻 Фоны меню</a></li>
                 </ul>
             </div>
         </div>
 
-        <!-- FAQ -->
         <div class="page" id="faq">
             <div class="card">
                 <h2>❓ Частые вопросы</h2>
-
                 <div class="faq-item">
-                    <h3>Проблемы с установкой текстур?</h3>
+                    <h3>Проблемы с установкой?</h3>
                     <p>
                         Обратитесь в <a href="https://t.me/DDNetGuideChat">чат поддержки</a>:
-                        <br>1. Проверка установки
-                        <br>2. Актуальные гайды
-                        <br>3. Решение сложных случаев
+                        <br>• Проверка установки
+                        <br>• Актуальные гайды
+                        <br>• Сложные случаи
                     </p>
                 </div>
 
                 <div class="faq-item">
-                    <h3>Как стать администратором?</h3>
+                    <h3>Как стать админом?</h3>
                     <p>
-                        Критерии отбора:
+                        Требования:
                         <br>• Активность в чате
                         <br>• Знание правил
                         <br>• Техническая грамотность
@@ -498,25 +377,107 @@ a:hover {
                 </div>
 
                 <div class="faq-item">
-                    <h3>Обжалование банов</h3>
+                    <h3>Обжалование бана</h3>
                     <p>
                         Напишите:
                         <br>• @IgnoringLynx618
-                        <br>• Причина и дата бана
+                        <br>• Причина и дата
                         <br>• Доказательства
                     </p>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- Нижний колонтитул -->
     <footer class="footer">
-        <p>Designed by <a href="https://t.me/IgnoringLynx618">@IgnoringLynx618</a></p>
-        <p>© 2025 «DDNetGuide»</p>
+        <p>© 2025 DDNet Guide | <a href="https://t.me/IgnoringLynx618">Контакты</a></p>
+    </footer>
 
-</footer>
+    <script>
+        let activeTabId = 'home';
+        const tabs = {};
 
+        document.addEventListener('DOMContentLoaded', () => {
+            addTab('Главная', 'home', true);
+            showPage('home');
+            
+            document.addEventListener('click', (e) => {
+                const sidebar = document.getElementById('sidebar');
+                const menuBtn = document.querySelector('.menu-btn');
+                
+                if (!sidebar.contains(e.target) && e.target !== menuBtn && sidebar.classList.contains('open')) {
+                    toggleMenu();
+                }
+            });
+        });
+
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function openTab(title, id) {
+            if (tabs[id]) {
+                showPage(id);
+            } else {
+                addTab(title, id, false);
+                showPage(id);
+            }
+            toggleMenu();
+        }
+
+        function addTab(title, id, isStatic) {
+            if (tabs[id]) return;
+            
+            const tabContainer = document.getElementById('tab-container');
+            const tab = document.createElement('div');
+            tab.className = `tab ${isStatic ? 'static' : ''}`;
+            tab.id = `tab-${id}`;
+            tab.innerHTML = `${title} ${!isStatic ? `<span class="close-btn" onclick="closeTab('${id}', event)">×</span>` : ''}`;
+            
+            tab.onclick = (e) => {
+                if (e.target.classList.contains('close-btn')) return;
+                showPage(id);
+            };
+            
+            tabContainer.appendChild(tab);
+            tabs[id] = { title, element: tab };
+        }
+
+        function closeTab(id, event) {
+            if (event) event.stopPropagation();
+            
+            const tab = document.getElementById(`tab-${id}`);
+            if (!tab || tab.classList.contains('static')) return;
+            
+            tab.remove();
+            delete tabs[id];
+            
+            if (activeTabId === id) {
+                showPage('home');
+            }
+        }
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            const page = document.getElementById(id);
+            if (page) {
+                page.classList.add('active');
+                activeTabId = id;
+            }
+            
+            const tab = document.getElementById(`tab-${id}`);
+            if (tab) {
+                tab.classList.add('active');
+                tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        }
+    </script>
 </body>
-
 </html>
