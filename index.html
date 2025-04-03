@@ -5,272 +5,295 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DDNet Guide</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-:root {
-    --primary: #6750A4;
-    --on-primary: #FFFFFF;
-    --primary-container: #EADDFF;
-    --secondary: #625B71;
-    --on-secondary: #FFFFFF;
-    --surface: #FEF7FF;
-    --surface-dim: #DED8E1;
-    --outline: #79747E;
-    --surface-container: #F3EDF7;
-    --scrim: rgba(0, 0, 0, 0.32);
-    
-    --radius-xs: 4px;
-    --radius-sm: 8px;
-    --radius-md: 16px;
-    --radius-lg: 28px;
-    
-    --elevation-1: 0 1px 3px rgba(0, 0, 0, 0.12);
-    --elevation-2: 0 4px 8px rgba(0, 0, 0, 0.14);
-    
-    --transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-}
+        :root {
+            --primary: #6750A4;
+            --on-primary: #FFFFFF;
+            --primary-container: #EADDFF;
+            --secondary: #625B71;
+            --on-secondary: #FFFFFF;
+            --surface: #FEF7FF;
+            --surface-dim: #DED8E1;
+            --outline: #79747E;
+            --surface-container: #F3EDF7;
+            --scrim: rgba(0, 0, 0, 0.32);
 
-body {
-    font-family: 'Roboto Flex', sans-serif;
-    background: var(--surface);
-    color: #1C1B1F;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-}
+            --radius-xs: 4px;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 28px;
 
-/* Header */
-.header {
-    background: var(--surface);
-    padding: 16px 24px;
-    box-shadow: var(--elevation-1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    width: 100%;
-}
+            --elevation-1: 0 1px 3px rgba(0, 0, 0, 0.12);
+            --elevation-2: 0 4px 8px rgba(0, 0, 0, 0.14);
 
-.header h1 {
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--primary);
-    letter-spacing: 0.15px;
-}
+            --transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-.menu-btn {
-    background: none;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
-    display: grid;
-    place-items: center;
-    color: var(--primary);
-    cursor: pointer;
-    transition: background var(--transition);
-}
+        body {
+            font-family: 'Roboto Flex', sans-serif;
+            background: var(--surface);
+            color: #1C1B1F;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
 
-.menu-btn:hover {
-    background: rgba(103, 80, 164, 0.08);
-}
+        .header {
+            background: var(--surface);
+            padding: 16px 24px;
+            box-shadow: var(--elevation-1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            width: 100%;
+        }
 
-/* Обновленный Sidebar */
-.sidebar {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 300px;
-    height: 100%;
-    background: var(--surface);
-    transition: transform var(--transition);
-    box-shadow: var(--elevation-2);
-    z-index: 1000;
-    padding: 24px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
+        .header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 0.15px;
+        }
 
-.sidebar.open {
-    transform: translateX(-100%);
-}
+        .menu-btn {
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            display: grid;
+            place-items: center;
+            color: var(--primary);
+            cursor: pointer;
+            transition: background var(--transition);
+        }
 
-.sidebar a {
-    display: flex;
-    align-items: center;
-    padding: 16px 20px;
-    border-radius: var(--radius-md);
-    color: var(--secondary);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all var(--transition);
-}
+        .menu-btn:hover {
+            background: rgba(103, 80, 164, 0.08);
+        }
 
-.sidebar a:hover {
-    background: var(--surface-container);
-    color: var(--primary);
-}
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100%;
+            background: var(--surface);
+            transition: transform var(--transition);
+            box-shadow: var(--elevation-2);
+            z-index: 1000;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-/* Центрирование контента */
-#instructions .card,
-#faq .card {
-    text-align: center;
-}
+        .sidebar.open {
+            transform: translateX(-100%);
+        }
 
-#instructions ul,
-#faq .faq-item {
-    text-align: left;
-    display: inline-block;
-    width: 100%;
-    max-width: 700px;
-}
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            border-radius: var(--radius-md);
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all var(--transition);
+        }
 
-.content {
-    flex: 1;
-    padding: 32px 24px;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-}
+        .sidebar a:hover {
+            background: var(--surface-container);
+            color: var(--primary);
+        }
 
-.tab-container {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 32px;
-    overflow-x: auto;
-    padding-bottom: 8px;
-}
+        .sidebar .material-symbols-outlined {
+            font-size: 20px;
+            margin-right: 12px;
+            vertical-align: middle;
+            color: var(--secondary);
+        }
 
-.tab {
-    background: var(--surface-container);
-    padding: 12px 24px;
-    border-radius: var(--radius-lg);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--secondary);
-    cursor: pointer;
-    transition: all var(--transition);
-    border: 1px solid var(--outline);
-    box-shadow: var(--elevation-1);
-    white-space: nowrap;
-}
+        h2 .material-symbols-outlined {
+            font-size: 28px;
+            color: var(--primary);
+            margin-right: 10px;
+        }
 
-.tab.active {
-    background: var(--primary-container);
-    color: var(--primary);
-    border-color: transparent;
-}
+        .content {
+            flex: 1;
+            padding: 32px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
 
-.card {
-    background: var(--surface);
-    border-radius: var(--radius-md);
-    padding: 24px;
-    margin-bottom: 24px;
-    border: 1px solid var(--surface-dim);
-    box-shadow: var(--elevation-1);
-}
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 24px;
+            color: var(--primary);
+            letter-spacing: 0.15px;
+            display: flex;
+            align-items: center;
+        }
 
-h2 {
-    font-size: 24px;
-    font-weight: 600;
-    margin: 0 0 24px;
-    color: var(--primary);
-    letter-spacing: 0.15px;
-}
+        /* Добавленные стили для центрирования */
+        #home .card > p {
+            text-align: center;
+            margin: 16px 0;
+        }
 
-h3 {
-    font-size: 18px;
-    font-weight: 600;
-    margin: 24px 0 16px;
-    color: var(--primary);
-}
+        #home h3,
+        #rules h3 {
+            text-align: center;
+        }
 
-ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
+        #instructions h2,
+        #rules h2,
+        #faq h2 {
+            justify-content: center;
+        }
 
-li {
-    padding: 16px;
-    margin: 8px 0;
-    background: var(--surface-container);
-    border-radius: var(--radius-sm);
-    transition: transform var(--transition);
-    border-left: 4px solid var(--primary-container);
-}
+        .tab-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
 
-li:hover {
-    transform: translateY(-2px);
-}
+        .tab {
+            background: var(--surface-container);
+            padding: 12px 24px;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--secondary);
+            cursor: pointer;
+            transition: all var(--transition);
+            border: 1px solid var(--outline);
+            box-shadow: var(--elevation-1);
+            white-space: nowrap;
+        }
 
-a {
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 500;
-    position: relative;
-}
+        .tab.active {
+            background: var(--primary-container);
+            color: var(--primary);
+            border-color: transparent;
+        }
 
-a::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--primary);
-    transition: width var(--transition);
-}
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid var(--surface-dim);
+            box-shadow: var(--elevation-1);
+        }
 
-a:hover::after {
-    width: 100%;
-}
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 24px 0 16px;
+            color: var(--primary);
+        }
 
-.page {
-    display: none;
-    animation: fadeIn 0.3s ease-out;
-}
+        ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
 
-.page.active {
-    display: block;
-}
+        li {
+            padding: 16px;
+            margin: 8px 0;
+            background: var(--surface-container);
+            border-radius: var(--radius-sm);
+            transition: transform var(--transition);
+            border-left: 4px solid var(--primary-container);
+        }
 
-.footer {
-    background: var(--surface-container);
-    padding: 24px;
-    text-align: center;
-    margin-top: auto;
-    width: 100%;
-}
+        li:hover {
+            transform: translateY(-2px);
+        }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+        }
 
-@media (max-width: 768px) {
-    .content {
-        padding: 24px 16px;
-    }
-    
-    .card {
-        padding: 16px;
-    }
-    
-    .tab {
-        padding: 12px 20px;
-    }
-}
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width var(--transition);
+        }
+
+        a:hover::after {
+            width: 100%;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .footer {
+            background: var(--surface-container);
+            padding: 24px;
+            text-align: center;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 24px 16px;
+            }
+
+            .card {
+                padding: 16px;
+            }
+
+            .tab {
+                padding: 12px 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -280,22 +303,21 @@ a:hover::after {
     </header>
 
     <nav class="sidebar" id="sidebar">
-        <a onclick="openTab('Главная', 'home')">🏠 Главная</a>
-        <a onclick="openTab('Правила', 'rules')">📜 Правила</a>
-        <a onclick="openTab('Инструкции', 'instructions')">🛠️ Инструкции</a>
-        <a onclick="openTab('FAQ', 'faq')">❓ FAQ</a>
+        <a onclick="openTab('Главная', 'home')"><span class="material-symbols-outlined">home</span>Главная</a>
+        <a onclick="openTab('Правила', 'rules')"><span class="material-symbols-outlined">event_note</span>Правила</a>
+        <a onclick="openTab('Инструкции', 'instructions')"><span class="material-symbols-outlined">construction</span>Инструкции</a>
+        <a onclick="openTab('FAQ', 'faq')"><span class="material-symbols-outlined">help</span>FAQ</a>
     </nav>
 
     <main class="content">
         <div class="tab-container" id="tab-container"></div>
-        
+
         <div class="page active" id="home">
             <div class="card">
-                <h2>Добро пожаловать в DDNet Guide!</h2>
+                <h2><span class="material-symbols-outlined">home</span>Добро пожаловать в DDNet Guide!</h2>
                 <p style="line-height: 1.6;">
                     Приветствуем вас в обновлённом сообществе DDNet! Теперь с современным Material You дизайном, который делает использование ещё удобнее.
                 </p>
-
                 <h3>Основные возможности</h3>
                 <ul>
                     <li>🎨 Адаптивный дизайн с динамическими цветами</li>
@@ -308,7 +330,7 @@ a:hover::after {
 
         <div class="page" id="rules">
             <div class="card">
-                <h2>📜 Правила чата</h2>
+                <h2><span class="material-symbols-outlined">event_note</span>Правила чата</h2>
                 <h3>Для участников</h3>
                 <ul>
                     <li>1. Оскорбления — удаление сообщения / мут на 2 часа</li>
@@ -317,14 +339,12 @@ a:hover::after {
                     <li>4. Угрозы — пермабан</li>
                     <li>5. Токсичность — санкции от админов</li>
                 </ul>
-
                 <h3>Для администраторов</h3>
                 <ul>
                     <li>⚡ Запрещено злоупотребление правами</li>
                     <li>🛡️ Обязанность поддерживать порядок</li>
                     <li>📛 Ответственность за ботов</li>
                 </ul>
-
                 <h3>Состав администрации</h3>
                 <ul>
                     <li>👑 <a href="https://t.me/IgnoringLynx618">@IgnoringLynx618</a></li>
@@ -339,7 +359,7 @@ a:hover::after {
 
         <div class="page" id="instructions">
             <div class="card">
-                <h2>🛠️ Инструкции</h2>
+                <h2><span class="material-symbols-outlined">construction</span>Инструкции</h2>
                 <ul>
                     <li><a href="https://t.me/DDNetGuide/444">📂 Доступ к папке Data</a></li>
                     <li><a href="https://t.me/DDNetGuide/27">🎮 Текстуры блоков</a></li>
@@ -355,7 +375,7 @@ a:hover::after {
 
         <div class="page" id="faq">
             <div class="card">
-                <h2>❓ Частые вопросы</h2>
+                <h2><span class="material-symbols-outlined">help</span>Частые вопросы</h2>
                 <div class="faq-item">
                     <h3>Проблемы с установкой?</h3>
                     <p>
@@ -365,7 +385,6 @@ a:hover::after {
                         <br>• Сложные случаи
                     </p>
                 </div>
-
                 <div class="faq-item">
                     <h3>Как стать админом?</h3>
                     <p>
@@ -375,7 +394,6 @@ a:hover::after {
                         <br>• Техническая грамотность
                     </p>
                 </div>
-
                 <div class="faq-item">
                     <h3>Обжалование бана</h3>
                     <p>
@@ -390,7 +408,9 @@ a:hover::after {
     </main>
 
     <footer class="footer">
-        <p>© 2025 DDNet Guide | <a href="https://t.me/IgnoringLynx618">Контакты</a></p>
+        <p>
+            © 2025 DDNet Guide | <a href="https://t.me/IgnoringLynx618">Контакты</a>
+        </p>
     </footer>
 
     <script>
@@ -400,11 +420,11 @@ a:hover::after {
         document.addEventListener('DOMContentLoaded', () => {
             addTab('Главная', 'home', true);
             showPage('home');
-            
+
             document.addEventListener('click', (e) => {
                 const sidebar = document.getElementById('sidebar');
                 const menuBtn = document.querySelector('.menu-btn');
-                
+
                 if (!sidebar.contains(e.target) && e.target !== menuBtn && sidebar.classList.contains('open')) {
                     toggleMenu();
                 }
@@ -427,31 +447,34 @@ a:hover::after {
 
         function addTab(title, id, isStatic) {
             if (tabs[id]) return;
-            
+
             const tabContainer = document.getElementById('tab-container');
             const tab = document.createElement('div');
             tab.className = `tab ${isStatic ? 'static' : ''}`;
             tab.id = `tab-${id}`;
             tab.innerHTML = `${title} ${!isStatic ? `<span class="close-btn" onclick="closeTab('${id}', event)">×</span>` : ''}`;
-            
+
             tab.onclick = (e) => {
                 if (e.target.classList.contains('close-btn')) return;
                 showPage(id);
             };
-            
+
             tabContainer.appendChild(tab);
-            tabs[id] = { title, element: tab };
+            tabs[id] = {
+                title,
+                element: tab
+            };
         }
 
         function closeTab(id, event) {
             if (event) event.stopPropagation();
-            
+
             const tab = document.getElementById(`tab-${id}`);
             if (!tab || tab.classList.contains('static')) return;
-            
+
             tab.remove();
             delete tabs[id];
-            
+
             if (activeTabId === id) {
                 showPage('home');
             }
@@ -461,21 +484,23 @@ a:hover::after {
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
-            
+
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            
+
             const page = document.getElementById(id);
             if (page) {
                 page.classList.add('active');
                 activeTabId = id;
             }
-            
+
             const tab = document.getElementById(`tab-${id}`);
             if (tab) {
                 tab.classList.add('active');
-                tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                tab.scrollIntoView({
+                    behavior: 'smooth', block: 'nearest', inline: 'center'
+                });
             }
         }
     </script>
