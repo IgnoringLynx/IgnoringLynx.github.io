@@ -11,6 +11,17 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        input, textarea, button, a {
+            user-select: auto;
+            -webkit-user-select: auto;
+            -moz-user-select: auto;
+            -ms-user-select: auto;
         }
 
         :root {
@@ -151,7 +162,6 @@
             align-items: center;
         }
 
-        /* Добавленные стили для центрирования */
         #home .card > p {
             text-align: center;
             margin: 16px 0;
@@ -270,6 +280,68 @@
             width: 100%;
         }
 
+        .rules-footer {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--surface-dim);
+        }
+
+        .info-line {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--surface-container);
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+        }
+
+        .info-line .material-symbols-outlined {
+            color: var(--primary);
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .credits {
+            color: var(--secondary);
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .contributors {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .contributor {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--surface-container);
+            border-radius: var(--radius-lg);
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all var(--transition);
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .contributor:hover {
+            background: var(--primary-container);
+            color: var(--primary);
+        }
+
+        .contributor .material-symbols-outlined {
+            font-size: 16px;
+            color: inherit;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -292,6 +364,23 @@
 
             .tab {
                 padding: 12px 20px;
+            }
+            
+            .info-line {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contributors {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .contributor {
+                width: 100%;
+                max-width: 280px;
             }
         }
     </style>
@@ -354,6 +443,27 @@
                     <li>🛡️ <a href="https://t.me/black0re0">@black0re0</a></li>
                     <li>🛡️ <a href="https://t.me/QwelsyQQ">@QwelsyQQ</a></li>
                 </ul>
+
+                <div class="rules-footer">
+                    <div class="info-line">
+                        <span class="material-symbols-outlined">info</span>
+                        <p>Доступ к правилам можно получить по команде /rules или просто написав "правила" в чате.</p>
+                    </div>
+                    
+                    <div class="credits">
+                        <p>Правила были созданы при поддержке:</p>
+                        <div class="contributors">
+                            <a href="https://t.me/IgnoringLynx618" class="contributor">
+                                <span class="material-symbols-outlined">person</span>
+                                @IgnoringLynx618
+                            </a>
+                            <a href="https://t.me/GooglePixelUser" class="contributor">
+                                <span class="material-symbols-outlined">android</span>
+                                @GooglePixelUser
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -414,6 +524,19 @@
     </footer>
 
     <script>
+               window.onerror = function(message, source, lineno, colno, error) {
+            console.error('Error:', {
+                message, source, lineno, colno, error
+            });
+            return true;
+        };
+
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('copy', e => e.preventDefault());
+        document.addEventListener('cut', e => e.preventDefault());
+        document.addEventListener('paste', e => e.preventDefault());
+        document.addEventListener('dragstart', e => e.preventDefault());
+
         let activeTabId = 'home';
         const tabs = {};
 
@@ -450,9 +573,9 @@
 
             const tabContainer = document.getElementById('tab-container');
             const tab = document.createElement('div');
-            tab.className = `tab ${isStatic ? 'static' : ''}`;
+            tab.className = `tab ${isStatic ? 'static': ''}`;
             tab.id = `tab-${id}`;
-            tab.innerHTML = `${title} ${!isStatic ? `<span class="close-btn" onclick="closeTab('${id}', event)">×</span>` : ''}`;
+            tab.innerHTML = `${title} ${!isStatic ? `<span class="close-btn" onclick="closeTab('${id}', event)">×</span>`: ''}`;
 
             tab.onclick = (e) => {
                 if (e.target.classList.contains('close-btn')) return;
@@ -506,3 +629,4 @@
     </script>
 </body>
 </html>
+        
