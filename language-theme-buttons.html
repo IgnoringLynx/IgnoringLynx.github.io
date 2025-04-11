@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DDNet Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        input, textarea, button, a {
+            user-select: auto;
+            -webkit-user-select: auto;
+            -moz-user-select: auto;
+            -ms-user-select: auto;
+        }
+
+        :root {
+            /* Светлая тема */
+            --primary-light: #6750A4;
+            --on-primary-light: #FFFFFF;
+            --primary-container-light: #EADDFF;
+            --secondary-light: #625B71;
+            --on-secondary-light: #FFFFFF;
+            --surface-light: #FEF7FF;
+            --surface-dim-light: #DED8E1;
+            --outline-light: #79747E;
+            --surface-container-light: #F3EDF7;
+            --scrim-light: rgba(0, 0, 0, 0.32);
+            --text-light: #1C1B1F;
+            --hover-bg-light: #F3EDF7;
+            --hover-text-light: #635B72;
+            --active-bg-light: #EBDDFF;
+            --active-text-light: #664EA2;
+
+            /* Темная тема */
+            --primary-dark: #D0BCFF;
+            --on-primary-dark: #381E72;
+            --primary-container-dark: #4F378B;
+            --secondary-dark: #CCC2DC;
+            --on-secondary-dark: #332D41;
+            --surface-dark: #1C1B1F;
+            --surface-dim-dark: #141218;
+            --outline-dark: #938F99;
+            --surface-container-dark: #211F26;
+            --scrim-dark: rgba(0, 0, 0, 0.6);
+            --text-dark: #E6E1E5;
+            --hover-bg-dark: #2D2B33;
+            --hover-text-dark: #CAC4D0;
+            --active-bg-dark: #4F378B;
+            --active-text-dark: #D0BCFF;
+
+            /* Активная тема (по умолчанию светлая) */
+            --primary: var(--primary-light);
+            --on-primary: var(--on-primary-light);
+            --primary-container: var(--primary-container-light);
+            --secondary: var(--secondary-light);
+            --on-secondary: var(--on-secondary-light);
+            --surface: var(--surface-light);
+            --surface-dim: var(--surface-dim-light);
+            --outline: var(--outline-light);
+            --surface-container: var(--surface-container-light);
+            --scrim: var(--scrim-light);
+            --text: var(--text-light);
+            --hover-bg: var(--hover-bg-light);
+            --hover-text: var(--hover-text-light);
+            --active-bg: var(--active-bg-light);
+            --active-text: var(--active-text-light);
+
+            --radius-xs: 4px;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 28px;
+
+            --elevation-1: 0 1px 3px rgba(0, 0, 0, 0.12);
+            --elevation-2: 0 4px 8px rgba(0, 0, 0, 0.14);
+
+            --transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Roboto Flex', sans-serif;
+            background: var(--surface);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+            transition: background-color var(--transition), color var(--transition);
+        }
+
+        .header {
+            background: var(--surface);
+            padding: 16px 24px;
+            box-shadow: var(--elevation-1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            width: 100%;
+            transition: background-color var(--transition);
+        }
+
+        .header-left {
+            flex: 1;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 0.15px;
+            transition: color var(--transition);
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            display: grid;
+            place-items: center;
+            color: var(--primary);
+            cursor: pointer;
+            transition: background var(--transition), color var(--transition);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .action-btn:hover {
+            background: rgba(103, 80, 164, 0.08);
+        }
+
+        .language-menu {
+            position: absolute;
+            top: 60px;
+            right: 56px;
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            box-shadow: var(--elevation-2);
+            z-index: 1001;
+            display: none;
+            padding: 8px 0;
+            min-width: 160px;
+            border: 1px solid var(--outline);
+        }
+
+        .language-menu.show {
+            display: block;
+            animation: fadeInDown 0.3s ease-out;
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background var(--transition);
+            color: var(--text);
+        }
+
+        .language-option:hover {
+            background: var(--hover-bg);
+        }
+
+        .language-option.active {
+            background: var(--active-bg);
+            color: var(--active-text);
+        }
+
+        .language-option .material-symbols-outlined {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        /* Боковая панель */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 280px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: transform var(--transition), background var(--transition);
+            box-shadow: var(--elevation-2);
+            z-index: 1000;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+        }
+
+        body.dark-theme .sidebar {
+            background: rgba(28, 27, 31, 0.95);
+        }
+
+        .sidebar.open {
+            transform: translateX(-320px);
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            margin: 4px 0;
+            border-radius: var(--radius-lg);
+            background-color: var(--hover-bg);
+            color: var(--hover-text);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all var(--transition);
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .sidebar a .material-symbols-outlined {
+            font-size: 20px;
+            margin-right: 12px;
+            vertical-align: middle;
+            color: var(--hover-text);
+            transition: color var(--transition);
+        }
+
+        .sidebar a.active {
+            background-color: var(--active-bg);
+            color: var(--active-text);
+        }
+
+        .sidebar a.active .material-symbols-outlined {
+            color: var(--active-text);
+        }
+
+        .sidebar a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: var(--primary);
+            transition: height 0.3s ease;
+            opacity: 0;
+        }
+
+        /* Изменения здесь: добавлен эффект при наведении и увеличена длительность transition */
+        .sidebar a:hover::after {
+            height: 4px;
+            opacity: 1;
+        }
+
+        /* Сохраняем эффект также при активном состоянии */
+        .sidebar a:active::after {
+            height: 4px;
+            opacity: 1;
+        }
+
+        .sidebar a:hover {
+            background-color: var(--active-bg);
+            color: var(--active-text);
+        }
+
+        .sidebar a:hover .material-symbols-outlined {
+            color: var(--active-text);
+        }
+
+        /* Затемняющий фон */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--scrim);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition), visibility var(--transition);
+            z-index: 999;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        h2 .material-symbols-outlined {
+            font-size: 28px;
+            color: var(--primary);
+            margin-right: 10px;
+            transition: color var(--transition);
+        }
+
+        .content {
+            flex: 1;
+            padding: 32px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 24px;
+            color: var(--primary);
+            letter-spacing: 0.15px;
+            display: flex;
+            align-items: center;
+            transition: color var(--transition);
+        }
+
+        #home .card > p {
+            text-align: center;
+            margin: 16px 0;
+        }
+
+        #home h3,
+        #rules h3 {
+            text-align: center;
+        }
+
+        #instructions h2,
+        #rules h2,
+        #faq h2 {
+            justify-content: center;
+        }
+
+        .tab-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scrollbar-width: thin;
+            scroll-behavior: smooth;
+        }
+
+        .tab {
+            background: var(--hover-bg);
+            padding: 12px 24px;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--hover-text);
+            cursor: pointer;
+            transition: all var(--transition);
+            border: 1px solid var(--outline);
+            box-shadow: var(--elevation-1);
+            white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: var(--primary);
+            transition: all 0.2s ease;
+            opacity: 0;
+        }
+        
+        .tab:active::after {
+            height: 4px;
+            opacity: 1;
+        }
+        
+        .tab:hover {
+            background: var(--active-bg);
+            color: var(--active-text);
+            border-color: transparent;
+        }
+        
+        .tab.active {
+            background: var(--active-bg);
+            color: var(--active-text);
+            border-color: transparent;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid var(--surface-dim);
+            box-shadow: var(--elevation-1);
+            transition: background var(--transition), border-color var(--transition);
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 24px 0 16px;
+            color: var(--primary);
+            transition: color var(--transition);
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        li {
+            padding: 16px;
+            margin: 8px 0;
+            background: var(--surface-container);
+            border-radius: var(--radius-sm);
+            transition: transform var(--transition), background var(--transition);
+            border-left: 4px solid var(--primary-container);
+        }
+
+        li:hover {
+            transform: translateY(-2px);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: color var(--transition);
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width var(--transition), background var(--transition);
+        }
+
+        a:hover::after {
+            width: 100%;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .footer {
+            background: var(--surface-container);
+            padding: 24px;
+            text-align: center;
+            margin-top: auto;
+            width: 100%;
+            transition: background var(--transition);
+        }
+
+        .rules-footer {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--surface-dim);
+            transition: border-color var(--transition);
+        }
+
+        .info-line {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--surface-container);
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+            transition: background var(--transition);
+        }
+
+        .info-line .material-symbols-outlined {
+            color: var(--primary);
+            font-size: 20px;
+            flex-shrink: 0;
+            transition: color var(--transition);
+        }
+
+        .credits {
+            color: var(--secondary);
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: center;
+            transition: color var(--transition);
+        }
+
+        .contributors {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .contributor {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--surface-container);
+            border-radius: var(--radius-lg);
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all var(--transition);
+            min-width: 200px;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .contributor:hover {
+            background: var(--surface-container);
+            color: var(--secondary);
+        }
+
+        .contributor .material-symbols-outlined {
+            font-size: 16px;
+            color: inherit;
+        }
+
+        .contributor[href="https://t.me/IgnoringLynx618"]:hover,
+        .contributor[href="https://t.me/GooglePixelUser"]:hover {
+            background: var(--active-bg) !important;
+            color: var(--active-text) !important;
+            border-color: transparent !important;
+        }
+
+        .contributor[href="https://t.me/IgnoringLynx618"]:hover .material-symbols-outlined,
+        .contributor[href="https://t.me/GooglePixelUser"]:hover .material-symbols-outlined {
+            color: inherit !important;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Адаптивный дизайн */
+        @media (max-width: 768px) {
+            .content {
+                padding: 24px 16px;
+            }
+
+            .card {
+                padding: 16px;
+            }
+
+            .tab {
+                padding: 12px 20px;
+            }
+            
+            .info-line {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .language-menu {
+                right: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contributors {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .contributor {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .sidebar {
+                width: 260px;
+                right: -260px;
+            }
+            
+            .sidebar.open {
+                transform: translateX(-260px);
+            }
+
+            .header-right {
+                gap: 4px;
+            }
+
+            .action-btn {
+                width: 36px;
+                height: 36px;
+            }
+        }
+        
+        button:focus,
+        a:focus,
+        .tab:focus {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Стилизация скроллбара для современных браузеров */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(103, 80, 164, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(103, 80, 164, 0.5);
+        }
+
+        /* Темная тема */
+        body.dark-theme {
+            --primary: var(--primary-dark);
+            --on-primary: var(--on-primary-dark);
+            --primary-container: var(--primary-container-dark);
+            --secondary: var(--secondary-dark);
+            --on-secondary: var(--on-secondary-dark);
+            --surface: var(--surface-dark);
+            --surface-dim: var(--surface-dim-dark);
+            --outline: var(--outline-dark);
+            --surface-container: var(--surface-container-dark);
+            --scrim: var(--scrim-dark);
+            --text: var(--text-dark);
+            --hover-bg: var(--hover-bg-dark);
+            --hover-text: var(--hover-text-dark);
+            --active-bg: var(--active-bg-dark);
+            --active-text: var(--active-text-dark);
+        }
+
+        body.dark-theme ::-webkit-scrollbar-thumb {
+            background: rgba(208, 188, 255, 0.3);
+        }
+
+        body.dark-theme ::-webkit-scrollbar-thumb:hover {
+            background: rgba(208, 188, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <h1>DDNet Guide</h1>
+        </div>
+        <div class="header-right">
+            <button class="action-btn" id="themeBtn" title="Сменить тему">
+                <span class="material-symbols-outlined">dark_mode</span>
+            </button>
+            <button class="action-btn" id="languageBtn" title="Сменить язык">
+                <span class="material-symbols-outlined">language</span>
+            </button>
+            <button class="action-btn" id="menuBtn" title="Меню">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="language-menu" id="languageMenu">
+        <div class="language-option active" data-lang="ru">
+            <span class="material-symbols-outlined">translate</span>
+            Русский
+        </div>
+        <div class="language-option" data-lang="en">
+            <span class="material-symbols-outlined">translate</span>
+            English
+        </div>
+        <div class="language-option" data-lang="uk">
+            <span class="material-symbols-outlined">translate</span>
+            Українська
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <nav class="sidebar" id="sidebar">
+        <a id="nav-home" onclick="openTab('Главная', 'home')"><span class="material-symbols-outlined">home</span><span class="nav-text">Главная</span></a>
+        <a id="nav-rules" onclick="openTab('Правила', 'rules')"><span class="material-symbols-outlined">event_note</span><span class="nav-text">Правила</span></a>
+        <a id="nav-instructions" onclick="openTab('Инструкции', 'instructions')"><span class="material-symbols-outlined">construction</span><span class="nav-text">Инструкции</span></a>
+        <a id="nav-faq" onclick="openTab('FAQ', 'faq')"><span class="material-symbols-outlined">help</span><span class="nav-text">FAQ</span></a>
+    </nav>
+
+    <main class="content">
+        <div class="tab-container" id="tab-container"></div>
+
+        <div class="page active" id="home">
+            <div class="card">
+                <h2><span class="material-symbols-outlined">home</span><span class="title-text">Добро пожаловать в DDNet Guide!</span></h2>
+                <p style="line-height: 1.6;" class="welcome-text">
+                    Приветствуем вас в обновлённом сообществе DDNet! Теперь с современным Material You дизайном, который делает использование ещё удобнее.
+                </p>
+                <h3 class="features-title">Основные возможности</h3>
+                <ul>
+                    <li class="feature-item">🎨 Адаптивный дизайн с динамическими цветами</li>
+                    <li class="feature-item">📱 Оптимизация для всех устройств</li>
+                    <li class="feature-item">✨ Плавные анимации взаимодействия</li>
+                    <li class="feature-item">🔧 Удобная навигация и поиск</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="page" id="rules">
+            <div class="card">
+                <h2><span class="material-symbols-outlined">event_note</span><span class="title-text">Правила чата</span></h2>
+                <h3 class="participants-title">Для участников</h3>
+                <ul>
+                    <li class="rule-item">1. Оскорбления — удаление сообщения / мут на 2 часа</li>
+                    <li class="rule-item">2. Оскорбление родственников — пермабан</li>
+                    <li class="rule-item">3. Конфликты в ЛС — нарушение: варн/мут</li>
+                    <li class="rule-item">4. Угрозы — пермабан</li>
+                    <li class="rule-item">5. Токсичность — санкции от админов</li>
+                </ul>
+                <h3 class="admin-title">Для администраторов</h3>
+                <ul>
+                    <li class="rule-item">⚡ Запрещено злоупотребление правами</li>
+                    <li class="rule-item">🛡️ Обязанность поддерживать порядок</li>
+                    <li class="rule-item">📛 Ответственность за ботов</li>
+                </ul>
+                <h3 class="adminlist-title">Состав администрации</h3>
+                <ul>
+                    <li class="admin-item">👑 <a href="https://t.me/IgnoringLynx618">@IgnoringLynx618</a></li>
+                    <li class="admin-item">🛡️ <a href="https://t.me/sschlntpybln">@sschlntpybln</a></li>
+                    <li class="admin-item">🛡️ <a href="https://t.me/Tergyl">@Tergyl</a></li>
+                    <li class="admin-item">🛡️ <a href="https://t.me/sylrox">@sylrox</a></li>
+                    <li class="admin-item">🛡️ <a href="https://t.me/black0re0">@black0re0</a></li>
+                    <li class="admin-item">🛡️ <a href="https://t.me/QwelsyQQ">@QwelsyQQ</a></li>
+                </ul>
+
+                <div class="rules-footer">
+                    <div class="info-line">
+                        <span class="material-symbols-outlined">info</span>
+                        <p class="info-text">Доступ к правилам можно получить по команде /rules или просто написав "правила" в чате.</p>
+                    </div>
+                    
+                    <div class="credits">
+                        <p class="credits-text">Правила были созданы при поддержке:</p>
+                        <div class="contributors">
+                            <a href="https://t.me/IgnoringLynx618" class="contributor">
+                                <span class="material-symbols-outlined">person</span>
+                                @IgnoringLynx618
+                            </a>
+                            <a href="https://t.me/GooglePixelUser" class="contributor">
+                                <span class="material-symbols-outlined">android</span>
+                                @GooglePixelUser
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="instructions">
+            <div class="card">
+                <h2><span class="material-symbols-outlined">construction</span><span class="title-text">Инструкции</span></h2>
+                <ul>
+                    <li class="instruction-item"><a href="https://t.me/DDNetGuide/444" class="instruction-link">📂 <span class="instruction-text">Доступ к папке Data</span></a></li>
+                    <li class="instruction-item"><a href="https://t.me/DDNetGuide/27" class="instruction-link">🎮 <span class="instruction-text">Текстуры блоков</span></a></li>
+                    <li class="instruction-item"><a href="https://t.me/DDNetGuide/28" class="instruction-link">🔫 <span class="instruction-text">Текстуры оружия</span></a></li>
+                    <li class="instruction-item"><a href="https://t.me/DDNetGuide/29" class="instruction-link">😀 <span class="instruction-text">Эмоции и партиклы</span></a></li>
+                    <li class="instruction-item"><a href="https://t.me/DDNetGuide/30" class="instruction-link">🎧 <span class="instruction-text">Звуки</span></a></li>
+                    <li class="instruction-item"><a href="https://t.me/DDNetGuide/32" class="instruction-link">👤 <span class="instruction-text">Свой скин</span></a></li>
+                    <li class="instruction-item"><a href="https://t.me/DDNetGuide/36" class="instruction-link">🌄 <span class="instruction-text">Фоны карт</span></a></li>
+                    <li class="instruction-item"><a href="https://t.me/DDNetGuide/75" class="instruction-link">💻 <span class="instruction-text">Фоны меню</span></a></li>
+                </ul>
+            </div>
+        </div>
+
+      <div class="page" id="faq">
+            <div class="card">
+                <h2><span class="material-symbols-outlined">help</span><span class="section-title">Частые вопросы</span></h2>
+                <div class="faq-item">
+                    <h3><span class="faq-question">Проблемы с установкой?</span></h3>
+                    <p>
+                        <span class="faq-answer">
+                        Обратитесь в <a href="https://t.me/DDNetGuideChat">чат поддержки</a>:
+                        <br>• Проверка установки
+                        <br>• Актуальные гайды
+                        <br>• Сложные случаи
+                        </span>
+                    </p>
+                </div>
+                <div class="faq-item">
+                    <h3><span class="faq-question">Как стать админом?</span></h3>
+                    <p>
+                        <span class="faq-answer">
+                        Требования:
+                        <br>• Активность в чате
+                        <br>• Знание правил
+                        <br>• Техническая грамотность
+                        </span>
+                    </p>
+                </div>
+                <div class="faq-item">
+                    <h3><span class="faq-question">Обжалование бана</span></h3>
+                    <p>
+                        <span class="faq-answer">
+                        Напишите:
+                        <br>• @IgnoringLynx618
+                        <br>• Причина и дата
+                        <br>• Доказательства
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>
+            © 2025 DDNet Guide | <a href="https://t.me/IgnoringLynx618"><span class="footer-contact">Контакты</span></a>
+        </p>
+    </footer>
+    
+    
+    <script>
+        // Глобальные переменные для доступа из всех функций
+        let activeTabId = 'home';
+        let tabs = {};
+        let currentLanguage = 'ru';
+        let isDarkTheme = false;
+
+        // Словари для многоязычности
+        const translations = {
+            'ru': {
+                'main': 'Главная',
+                'rules': 'Правила',
+                'instructions': 'Инструкции',
+                'faq': 'FAQ',
+                'welcome': 'Добро пожаловать в DDNet Guide!',
+                'welcomeText': 'Приветствуем вас в обновлённом сообществе DDNet! Теперь с современным Material You дизайном, который делает использование ещё удобнее.',
+                'features': 'Основные возможности',
+                'feature1': '🎨 Адаптивный дизайн с динамическими цветами',
+                'feature2': '📱 Оптимизация для всех устройств',
+                'feature3': '✨ Плавные анимации взаимодействия',
+                'feature4': '🔧 Удобная навигация и поиск',
+                'chatRules': 'Правила чата',
+                'forParticipants': 'Для участников',
+                'rule1': '1. Оскорбления — удаление сообщения / мут на 2 часа',
+                'rule2': '2. Оскорбление родственников — пермабан',
+                'rule3': '3. Конфликты в ЛС — нарушение: варн/мут',
+                'rule4': '4. Угрозы — пермабан',
+                'rule5': '5. Токсичность — санкции от админов',
+                'forAdmins': 'Для администраторов',
+                'adminRule1': '⚡ Запрещено злоупотребление правами',
+                'adminRule2': '🛡️ Обязанность поддерживать порядок',
+                'adminRule3': '📛 Ответственность за ботов',
+                'adminList': 'Состав администрации',
+                'rulesFooter': 'Доступ к правилам можно получить по команде /rules или просто написав "правила" в чате.',
+                'rulesCredits': 'Правила были созданы при поддержке:',
+                'instructionsTitle': 'Инструкции',
+                'inst1': '📂 Доступ к папке Data',
+                'inst2': '🎮 Текстуры блоков',
+                'inst3': '🔫 Текстуры оружия',
+                'inst4': '😀 Эмоции и партиклы',
+                'inst5': '🎧 Звуки',
+                'inst6': '👤 Свой скин',
+                'inst7': '🌄 Фоны карт',
+                'inst8': '💻 Фоны меню',
+                'faqTitle': 'Частые вопросы',
+                'faq1': 'Проблемы с установкой?',
+                'faq1Answer': 'Обратитесь в чат поддержки:<br>• Проверка установки<br>• Актуальные гайды<br>• Сложные случаи',
+                'faq2': 'Как стать админом?',
+                'faq2Answer': 'Требования:<br>• Активность в чате<br>• Знание правил<br>• Техническая грамотность',
+                'faq3': 'Обжалование бана',
+                'faq3Answer': 'Напишите:<br>• @IgnoringLynx618<br>• Причина и дата<br>• Доказательства',
+                'supportChat': 'чат поддержки',
+                'footer': '© 2025 DDNet Guide | Контакты',
+                'themeBtn': 'Сменить тему',
+                'langBtn': 'Сменить язык',
+                'menuBtn': 'Меню',
+                'contacts': 'Контакты'
+            },
+            'en': {
+                'main': 'Home',
+                'rules': 'Rules',
+                'instructions': 'Instructions',
+                'faq': 'FAQ',
+                'welcome': 'Welcome to DDNet Guide!',
+                'welcomeText': 'Welcome to the updated DDNet community! Now with modern Material You design, which makes the experience even more convenient.',
+                'features': 'Main Features',
+                'feature1': '🎨 Adaptive design with dynamic colors',
+                'feature2': '📱 Optimization for all devices',
+                'feature3': '✨ Smooth interaction animations',
+                'feature4': '🔧 Convenient navigation and search',
+                'chatRules': 'Chat Rules',
+                'forParticipants': 'For Participants',
+                'rule1': '1. Insults — message removal / 2-hour mute',
+                'rule2': '2. Insulting relatives — permaban',
+                'rule3': '3. Private message conflicts — violation: warn/mute',
+                'rule4': '4. Threats — permaban',
+                'rule5': '5. Toxicity — admin sanctions',
+                'forAdmins': 'For Administrators',
+                'adminRule1': '⚡ Abuse of power is prohibited',
+                'adminRule2': '🛡️ Must maintain order',
+                'adminRule3': '📛 Responsibility for bots',
+                'adminList': 'Administration Team',
+                'rulesFooter': 'Rules can be accessed with the /rules command or by typing "rules" in the chat.',
+                'rulesCredits': 'Rules were created with support from:',
+                'instructionsTitle': 'Instructions',
+                'inst1': '📂 Access to Data folder',
+                'inst2': '🎮 Block textures',
+                'inst3': '🔫 Weapon textures',
+                'inst4': '😀 Emotions and particles',
+                'inst5': '🎧 Sounds',
+                'inst6': '👤 Custom skin',
+                'inst7': '🌄 Map backgrounds',
+                'inst8': '💻 Menu backgrounds',
+                'faqTitle': 'Frequently Asked Questions',
+                'faq1': 'Installation Problems?',
+                'faq1Answer': 'Contact our support chat:<br>• Installation verification<br>• Up-to-date guides<br>• Complex cases',
+                'faq2': 'How to become an admin?',
+                'faq2Answer': 'Requirements:<br>• Activity in chat<br>• Knowledge of rules<br>• Technical literacy',
+                'faq3': 'Ban appeals',
+                'faq3Answer': 'Write to:<br>• @IgnoringLynx618<br>• Reason and date<br>• Evidence',
+                'supportChat': 'support chat',
+                'footer': '© 2025 DDNet Guide | Contacts',
+                'themeBtn': 'Change theme',
+                'langBtn': 'Change language',
+                'menuBtn': 'Menu',
+                'contacts': 'Contacts'
+            },
+            'uk': {
+                'main': 'Головна',
+                'rules': 'Правила',
+                'instructions': 'Інструкції',
+                'faq': 'FAQ',
+                'welcome': 'Ласкаво просимо до DDNet Guide!',
+                'welcomeText': 'Вітаємо вас в оновленій спільноті DDNet! Тепер із сучасним дизайном Material You, який робить використання ще зручнішим.',
+                'features': 'Основні можливості',
+                'feature1': '🎨 Адаптивний дизайн з динамічними кольорами',
+                'feature2': '📱 Оптимізація для всіх пристроїв',
+                'feature3': '✨ Плавні анімації взаємодії',
+                'feature4': '🔧 Зручна навігація та пошук',
+                'chatRules': 'Правила чату',
+                'forParticipants': 'Для учасників',
+                'rule1': '1. Образи — видалення повідомлення / мут на 2 години',
+                'rule2': '2. Образа родичів — пермабан',
+                'rule3': '3. Конфлікти в ЛС — порушення: варн/мут',
+                'rule4': '4. Погрози — пермабан',
+                'rule5': '5. Токсичність — санкції від адмінів',
+                'forAdmins': 'Для адміністраторів',
+                'adminRule1': '⚡ Заборонено зловживання правами',
+                'adminRule2': '🛡️ Обов\'язок підтримувати порядок',
+                'adminRule3': '📛 Відповідальність за ботів',
+                'adminList': 'Склад адміністрації',
+                'rulesFooter': 'Доступ до правил можна отримати за командою /rules або просто написавши "правила" в чаті.',
+                'rulesCredits': 'Правила були створені за підтримки:',
+                'instructionsTitle': 'Інструкції',
+                'inst1': '📂 Доступ до папки Data',
+                'inst2': '🎮 Текстури блоків',
+                'inst3': '🔫 Текстури зброї',
+                'inst4': '😀 Емоції та частинки',
+                'inst5': '🎧 Звуки',
+                'inst6': '👤 Власний скін',
+                'inst7': '🌄 Фони карт',
+                'inst8': '💻 Фони меню',
+                'faqTitle': 'Часті питання',
+                'faq1': 'Проблеми з встановленням?',
+                'faq1Answer': 'Зверніться в чат підтримки:<br>• Перевірка встановлення<br>• Актуальні гайди<br>• Складні випадки',
+                'faq2': 'Як стати адміном?',
+                'faq2Answer': 'Вимоги:<br>• Активність у чаті<br>• Знання правил<br>• Технічна грамотність',
+                'faq3': 'Оскарження бану',
+                'faq3Answer': 'Напишіть:<br>• @IgnoringLynx618<br>• Причина та дата<br>• Докази',
+                'supportChat': 'чат підтримки',
+                'footer': '© 2025 DDNet Guide | Контакти',
+                'themeBtn': 'Змінити тему',
+                'langBtn': 'Змінити мову',
+                'menuBtn': 'Меню',
+                'contacts': 'Контакти'
+            }
+        };
+
+        // Предварительная загрузка иконок Material Icons
+        window.addEventListener('DOMContentLoaded', function() {
+            // Принудительная загрузка иконок
+            preloadIcons();
+            
+            // Инициализация страницы
+            initializePage();
+        });
+
+        function preloadIcons() {
+            const icons = ['home', 'event_note', 'construction', 'help', 'person', 'android', 'info', 'language', 'dark_mode', 'light_mode', 'menu', 'translate'];
+            const container = document.createElement('div');
+            container.style.position = 'absolute';
+            container.style.visibility = 'hidden';
+            container.style.pointerEvents = 'none';
+            
+            icons.forEach(icon => {
+                const span = document.createElement('span');
+                span.className = 'material-symbols-outlined';
+                span.textContent = icon;
+                container.appendChild(span);
+            });
+            
+            document.body.appendChild(container);
+            
+            // Убираем контейнер через 2 секунды
+            setTimeout(() => {
+                if (document.body.contains(container)) {
+                    document.body.removeChild(container);
+                }
+            }, 2000);
+        }
+        
+        function initializePage() {
+            // Установка обработчиков ошибок
+            window.onerror = function(message, source, lineno, colno, error) {
+                console.error('Error:', {
+                    message, source, lineno, colno, error
+                });
+                return true;
+            };
+
+            // Установка защиты контента
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            document.addEventListener('copy', e => e.preventDefault());
+            document.addEventListener('cut', e => e.preventDefault());
+            document.addEventListener('paste', e => e.preventDefault());
+            document.addEventListener('dragstart', e => e.preventDefault());
+
+            // Получение элементов интерфейса
+            const overlay = document.getElementById('overlay');
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.getElementById('menuBtn');
+            const themeBtn = document.getElementById('themeBtn');
+            const languageBtn = document.getElementById('languageBtn');
+            const languageMenu = document.getElementById('languageMenu');
+
+            // Добавление первой вкладки
+            addTab(translations[currentLanguage]['main'], 'home', true);
+            showPage('home');
+
+            // Обработчики событий для меню
+            menuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleMenu();
+            });
+
+            overlay.addEventListener('click', function() {
+                toggleMenu();
+                closeLanguageMenu();
+            });
+
+            // Обработчик для переключения темы
+            themeBtn.addEventListener('click', function() {
+                toggleTheme();
+            });
+
+            // Обработчик для меню языков
+            languageBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleLanguageMenu();
+            });
+
+            // Закрываем меню языков при клике вне меню
+            document.addEventListener('click', function(e) {
+                if (!languageMenu.contains(e.target) && e.target !== languageBtn) {
+                    closeLanguageMenu();
+                }
+            });
+
+            // Добавляем обработчики для элементов языкового меню
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    changeLanguage(lang);
+                    closeLanguageMenu();
+                });
+            });
+
+            // Адаптация интерфейса к размеру экрана
+            checkScreenSize();
+            window.addEventListener('resize', checkScreenSize);
+            
+            // Установка активной вкладки в боковом меню
+            updateSidebarActiveTab('home');
+
+            // Восстановление темы из localStorage
+            if (localStorage.getItem('ddnet-theme') === 'dark') {
+                toggleTheme();
+            }
+
+            // Восстановление языка из localStorage
+            const savedLang = localStorage.getItem('ddnet-language');
+            if (savedLang && translations[savedLang]) {
+                changeLanguage(savedLang);
+            }
+        }
+
+        function checkScreenSize() {
+            const sidebar = document.getElementById('sidebar');
+            
+            if (window.innerWidth >= 1200) {
+                sidebar.style.width = '280px';
+            } else if (window.innerWidth <= 480) {
+                sidebar.style.width = '260px';
+            } else {
+                sidebar.style.width = '280px';
+            }
+        }
+
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+            
+            if (sidebar.classList.contains('open')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        function toggleLanguageMenu() {
+            const languageMenu = document.getElementById('languageMenu');
+            languageMenu.classList.toggle('show');
+        }
+
+        function closeLanguageMenu() {
+            const languageMenu = document.getElementById('languageMenu');
+            languageMenu.classList.remove('show');
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeBtn = document.getElementById('themeBtn');
+            const icon = themeBtn.querySelector('.material-symbols-outlined');
+            
+            body.classList.toggle('dark-theme');
+            isDarkTheme = body.classList.contains('dark-theme');
+            
+            if (isDarkTheme) {
+                icon.textContent = 'light_mode';
+                themeBtn.title = translations[currentLanguage]['themeBtn'];
+                localStorage.setItem('ddnet-theme', 'dark');
+            } else {
+                icon.textContent = 'dark_mode';
+                themeBtn.title = translations[currentLanguage]['themeBtn'];
+                localStorage.setItem('ddnet-theme', 'light');
+            }
+        }
+
+        function changeLanguage(lang) {
+            if (!translations[lang]) return;
+            
+            // Сохраняем выбранный язык
+            currentLanguage = lang;
+            localStorage.setItem('ddnet-language', lang);
+            
+            // Обновляем активную опцию в меню языков
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.getAttribute('data-lang') === lang) {
+                    option.classList.add('active');
+                }
+            });
+            
+            // Обновляем навигацию в боковом меню
+            document.querySelector('#nav-home .nav-text').textContent = translations[lang]['main'];
+            document.querySelector('#nav-rules .nav-text').textContent = translations[lang]['rules'];
+            document.querySelector('#nav-instructions .nav-text').textContent = translations[lang]['instructions'];
+            document.querySelector('#nav-faq .nav-text').textContent = translations[lang]['faq'];
+            
+            // Обновляем заголовки вкладок
+            const tabContainer = document.getElementById('tab-container');
+            if (tabContainer.querySelector('#tab-home')) {
+                tabContainer.querySelector('#tab-home').textContent = translations[lang]['main'];
+            }
+            
+            // Обновляем содержимое главной страницы
+            document.querySelector('#home h2 .title-text').textContent = translations[lang]['welcome'];
+            document.querySelector('#home .welcome-text').textContent = translations[lang]['welcomeText'];
+            document.querySelector('#home .features-title').textContent = translations[lang]['features'];
+            
+            const featureItems = document.querySelectorAll('#home .feature-item');
+            featureItems[0].textContent = translations[lang]['feature1'];
+            featureItems[1].textContent = translations[lang]['feature2'];
+            featureItems[2].textContent = translations[lang]['feature3'];
+            featureItems[3].textContent = translations[lang]['feature4'];
+            
+            // Обновляем содержимое страницы правил
+            document.querySelector('#rules h2 .title-text').textContent = translations[lang]['chatRules'];
+            document.querySelector('#rules .participants-title').textContent = translations[lang]['forParticipants'];
+            
+            const ruleItems = document.querySelectorAll('#rules .rule-item');
+            ruleItems[0].textContent = translations[lang]['rule1'];
+            ruleItems[1].textContent = translations[lang]['rule2'];
+            ruleItems[2].textContent = translations[lang]['rule3'];
+            ruleItems[3].textContent = translations[lang]['rule4'];
+            ruleItems[4].textContent = translations[lang]['rule5'];
+            
+            document.querySelector('#rules .admin-title').textContent = translations[lang]['forAdmins'];
+            ruleItems[5].textContent = translations[lang]['adminRule1'];
+            ruleItems[6].textContent = translations[lang]['adminRule2'];
+            ruleItems[7].textContent = translations[lang]['adminRule3'];
+            
+            document.querySelector('#rules .adminlist-title').textContent = translations[lang]['adminList'];
+            document.querySelector('#rules .info-text').textContent = translations[lang]['rulesFooter'];
+            document.querySelector('#rules .credits-text').textContent = translations[lang]['rulesCredits'];
+            
+            // Обновляем содержимое страницы инструкций
+            document.querySelector('#instructions h2 .title-text').textContent = translations[lang]['instructionsTitle'];
+            
+            const instructionTexts = document.querySelectorAll('#instructions .instruction-text');
+            instructionTexts[0].textContent = translations[lang]['inst1'];
+            instructionTexts[1].textContent = translations[lang]['inst2'];
+            instructionTexts[2].textContent = translations[lang]['inst3'];
+            instructionTexts[3].textContent = translations[lang]['inst4'];
+            instructionTexts[4].textContent = translations[lang]['inst5'];
+            instructionTexts[5].textContent = translations[lang]['inst6'];
+            instructionTexts[6].textContent = translations[lang]['inst7'];
+            instructionTexts[7].textContent = translations[lang]['inst8'];
+            
+                        // Обновляем содержимое страницы FAQ
+            document.querySelector('#faq h2 .title-text').textContent = translations[lang]['faqTitle'];
+            
+            const faqQuestions = document.querySelectorAll('#faq .faq-question');
+            faqQuestions[0].textContent = translations[lang]['faq1'];
+            faqQuestions[1].textContent = translations[lang]['faq2'];
+            faqQuestions[2].textContent = translations[lang]['faq3'];
+            
+            const faqAnswers = document.querySelectorAll('#faq .faq-answer');
+            faqAnswers[0].innerHTML = translations[lang]['faq1Answer'];
+            faqAnswers[1].innerHTML = translations[lang]['faq2Answer'];
+            faqAnswers[2].innerHTML = translations[lang]['faq3Answer'];
+            
+            document.querySelector('#faq .contact-link').textContent = translations[lang]['supportChat'];
+            
+            // Обновляем содержимое футера
+            document.querySelector('.footer-text').innerHTML = `© 2025 DDNet Guide | <a href="https://t.me/IgnoringLynx618" class="footer-link">${translations[lang]['contacts']}</a>`;
+            
+            // Обновляем заголовки кнопок
+            document.getElementById('themeBtn').title = translations[lang]['themeBtn'];
+            document.getElementById('languageBtn').title = translations[lang]['langBtn'];
+            document.getElementById('menuBtn').title = translations[lang]['menuBtn'];
+        }
+
+        function openTab(title, id) {
+            updateSidebarActiveTab(id);
+            
+            if (tabs[id]) {
+                showPage(id);
+            } else {
+                addTab(title, id, false);
+                showPage(id);
+            }
+            
+            toggleMenu();
+        }
+
+        function updateSidebarActiveTab(id) {
+            document.querySelectorAll('.sidebar a').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            const navItem = document.getElementById('nav-' + id);
+            if (navItem) {
+                navItem.classList.add('active');
+            }
+        }
+
+        function addTab(title, id, isStatic) {
+            if (tabs[id]) return;
+
+            const tabContainer = document.getElementById('tab-container');
+            const tab = document.createElement('div');
+            tab.className = `tab ${isStatic ? 'static': ''}`;
+            tab.id = `tab-${id}`;
+            tab.innerHTML = `${title} ${!isStatic ? `<span class="close-btn" onclick="closeTab('${id}', event)">×</span>`: ''}`;
+
+            tab.onclick = (e) => {
+                if (e.target.classList.contains('close-btn')) return;
+                showPage(id);
+                updateSidebarActiveTab(id);
+            };
+
+            tabContainer.appendChild(tab);
+            tabs[id] = {
+                title,
+                element: tab
+            };
+        }
+
+        function closeTab(id, event) {
+            if (event) event.stopPropagation();
+
+            const tab = document.getElementById(`tab-${id}`);
+            if (!tab || tab.classList.contains('static')) return;
+
+            tab.remove();
+            delete tabs[id];
+
+            if (activeTabId === id) {
+                showPage('home');
+                updateSidebarActiveTab('home');
+            }
+        }
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            const page = document.getElementById(id);
+            if (page) {
+                page.classList.add('active');
+                activeTabId = id;
+            }
+
+            const tab = document.getElementById(`tab-${id}`);
+            if (tab) {
+                tab.classList.add('active');
+                
+                setTimeout(() => {
+                    tab.scrollIntoView({
+                        behavior: 'smooth', 
+                        block: 'nearest', 
+                        inline: 'center'
+                    });
+                }, 100);
+            }
+        }
+    </script>
+</body>
+</html>
