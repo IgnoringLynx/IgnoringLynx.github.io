@@ -36,12 +36,6 @@
             --outline: #79747E;
             --surface-container: #F3EDF7;
             --scrim: rgba(0, 0, 0, 0.32);
-            
-            /* Новые цвета для кнопок */
-            --hover-bg: #F3EDF7;
-            --hover-text: #635B72;
-            --active-bg: #EBDDFF;
-            --active-text: #664EA2;
 
             --radius-xs: 4px;
             --radius-sm: 8px;
@@ -62,7 +56,6 @@
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            position: relative;
         }
 
         .header {
@@ -100,19 +93,16 @@
         }
 
         .menu-btn:hover {
-            background: rgba(103, 80, 164, 0.08);
+            background: transparent;
         }
 
-        /* Боковая панель */
         .sidebar {
             position: fixed;
             top: 0;
-            right: -320px;
-            width: 280px;
+            right: -100%;
+            width: 300px;
             height: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: var(--surface);
             transition: transform var(--transition);
             box-shadow: var(--elevation-2);
             z-index: 1000;
@@ -120,98 +110,35 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            overflow-y: auto;
         }
 
         .sidebar.open {
-            transform: translateX(-320px);
+            transform: translateX(-100%);
         }
 
         .sidebar a {
             display: flex;
             align-items: center;
-            padding: 12px 20px;
-            margin: 4px 0;
-            border-radius: var(--radius-lg);
-            background-color: var(--hover-bg);
-            color: var(--hover-text);
+            padding: 16px 20px;
+            border-radius: var(--radius-md);
+            color: var(--secondary);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
             transition: all var(--transition);
             -webkit-tap-highlight-color: transparent;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .sidebar a .material-symbols-outlined {
-            font-size: 20px;
-            margin-right: 12px;
-            vertical-align: middle;
-            color: var(--hover-text);
-            transition: color var(--transition);
-        }
-
-        .sidebar a.active {
-            background-color: var(--active-bg);
-            color: var(--active-text);
-        }
-
-        .sidebar a.active .material-symbols-outlined {
-            color: var(--active-text);
-        }
-
-        .sidebar a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 0;
-            background-color: var(--primary);
-            transition: height 0.3s ease;
-            opacity: 0;
-        }
-
-        /* Изменения здесь: добавлен эффект при наведении и увеличена длительность transition */
-        .sidebar a:hover::after {
-            height: 4px;
-            opacity: 1;
-        }
-
-        /* Сохраняем эффект также при активном состоянии */
-        .sidebar a:active::after {
-            height: 4px;
-            opacity: 1;
         }
 
         .sidebar a:hover {
-            background-color: var(--active-bg);
-            color: var(--active-text);
+            background: transparent;
+            color: var(--secondary);
         }
 
-        .sidebar a:hover .material-symbols-outlined {
-            color: var(--active-text);
-        }
-
-        /* Затемняющий фон */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--scrim);
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity var(--transition), visibility var(--transition);
-            z-index: 999;
-        }
-
-        .overlay.active {
-            opacity: 1;
-            visibility: visible;
+        .sidebar .material-symbols-outlined {
+            font-size: 20px;
+            margin-right: 12px;
+            vertical-align: middle;
+            color: var(--secondary);
         }
 
         h2 .material-symbols-outlined {
@@ -260,53 +187,26 @@
             margin-bottom: 32px;
             overflow-x: auto;
             padding-bottom: 8px;
-            scrollbar-width: thin;
-            scroll-behavior: smooth;
         }
 
         .tab {
-            background: var(--hover-bg);
+            background: var(--surface-container);
             padding: 12px 24px;
             border-radius: var(--radius-lg);
             font-size: 14px;
             font-weight: 500;
-            color: var(--hover-text);
+            color: var(--secondary);
             cursor: pointer;
             transition: all var(--transition);
             border: 1px solid var(--outline);
             box-shadow: var(--elevation-1);
             white-space: nowrap;
             -webkit-tap-highlight-color: transparent;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .tab::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 0;
-            background-color: var(--primary);
-            transition: all 0.2s ease;
-            opacity: 0;
-        }
-        
-        .tab:active::after {
-            height: 4px;
-            opacity: 1;
-        }
-        
-        .tab:hover {
-            background: var(--active-bg);
-            color: var(--active-text);
-            border-color: transparent;
         }
         
         .tab.active {
-            background: var(--active-bg);
-            color: var(--active-text);
+            background: var(--primary-container);
+            color: var(--primary);
             border-color: transparent;
         }
 
@@ -447,16 +347,17 @@
             color: inherit;
         }
 
-        .contributor[href="https://t.me/IgnoringLynx618"]:hover,
-        .contributor[href="https://t.me/GooglePixelUser"]:hover {
-            background: #EBDDFF !important;
-            color: #6750A1 !important;
-            border-color: transparent !important;
-        }
+    .contributor[href="https://t.me/IgnoringLynx618"]:hover,
+    .contributor[href="https://t.me/GooglePixelUser"]:hover {
+        background: #EBDDFF !important;
+        color: #6750A1 !important;
+        border-color: transparent !important;
+    }
 
-        .contributor[href="https://t.me/IgnoringLynx618"]:hover .material-symbols-outlined,
-        .contributor[href="https://t.me/GooglePixelUser"]:hover .material-symbols-outlined {
-            color: inherit !important;
+    .contributor[href="https://t.me/IgnoringLynx618"]:hover .material-symbols-outlined,
+    .contributor[href="https://t.me/GooglePixelUser"]:hover .material-symbols-outlined {
+        color: inherit !important;
+
         }
 
         @keyframes fadeIn {
@@ -470,7 +371,6 @@
             }
         }
 
-        /* Адаптивный дизайн */
         @media (max-width: 768px) {
             .content {
                 padding: 24px 16px;
@@ -500,15 +400,6 @@
                 width: 100%;
                 max-width: 280px;
             }
-
-            .sidebar {
-                width: 260px;
-                right: -260px;
-            }
-            
-            .sidebar.open {
-                transform: translateX(-260px);
-            }
         }
         
         button:focus,
@@ -517,40 +408,19 @@
             outline: none !important;
             box-shadow: none !important;
         }
-
-        /* Стилизация скроллбара для современных браузеров */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(103, 80, 164, 0.3);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(103, 80, 164, 0.5);
-        }
     </style>
 </head>
 <body>
     <header class="header">
         <h1>DDNet Guide</h1>
-        <button class="menu-btn" id="menuBtn">☰</button>
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
     </header>
 
-    <div class="overlay" id="overlay"></div>
-
     <nav class="sidebar" id="sidebar">
-        <a id="nav-home" onclick="openTab('Главная', 'home')"><span class="material-symbols-outlined">home</span>Главная</a>
-        <a id="nav-rules" onclick="openTab('Правила', 'rules')"><span class="material-symbols-outlined">event_note</span>Правила</a>
-        <a id="nav-instructions" onclick="openTab('Инструкции', 'instructions')"><span class="material-symbols-outlined">construction</span>Инструкции</a>
-        <a id="nav-faq" onclick="openTab('FAQ', 'faq')"><span class="material-symbols-outlined">help</span>FAQ</a>
+        <a onclick="openTab('Главная', 'home')"><span class="material-symbols-outlined">home</span>Главная</a>
+        <a onclick="openTab('Правила', 'rules')"><span class="material-symbols-outlined">event_note</span>Правила</a>
+        <a onclick="openTab('Инструкции', 'instructions')"><span class="material-symbols-outlined">construction</span>Инструкции</a>
+        <a onclick="openTab('FAQ', 'faq')"><span class="material-symbols-outlined">help</span>FAQ</a>
     </nav>
 
     <main class="content">
@@ -651,4 +521,113 @@
                     </p>
                 </div>
                 <div class="faq-item">
- 
+                    <h3>Как стать админом?</h3>
+                    <p>
+                        Требования:
+                        <br>• Активность в чате
+                        <br>• Знание правил
+                        <br>• Техническая грамотность
+                    </p>
+                </div>
+                <div class="faq-item">
+                    <h3>Обжалование бана</h3>
+                    <p>
+                        Напишите:
+                        <br>• @IgnoringLynx618
+                        <br>• Причина и дата
+                        <br>• Доказательства
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>
+            © 2025 DDNet Guide | <a href="https://t.me/IgnoringLynx618">Контакты</a>
+        </p>
+    </footer>
+
+    <script>
+               window.onerror = function(message, source, lineno, colno, error) {
+            console.error('Error:', {
+                message, source, lineno, colno, error
+            });
+            return true;
+        };
+
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('copy', e => e.preventDefault());
+        document.addEventListener('cut', e => e.preventDefault());
+        document.addEventListener('paste', e => e.preventDefault());
+        document.addEventListener('dragstart', e => e.preventDefault());
+
+        let activeTabId = 'home';
+        const tabs = {};
+
+        document.addEventListener('DOMContentLoaded', () => {
+            addTab('Главная', 'home', true);
+            showPage('home');
+
+            document.addEventListener('click', (e) => {
+                const sidebar = document.getElementById('sidebar');
+                const menuBtn = document.querySelector('.menu-btn');
+
+                if (!sidebar.contains(e.target) && e.target !== menuBtn && sidebar.classList.contains('open')) {
+                    toggleMenu();
+                }
+            });
+        });
+
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function openTab(title, id) {
+            if (tabs[id]) {
+                showPage(id);
+            } else {
+                addTab(title, id, false);
+                showPage(id);
+            }
+            toggleMenu();
+        }
+
+        function addTab(title, id, isStatic) {
+            if (tabs[id]) return;
+
+            const tabContainer = document.getElementById('tab-container');
+            const tab = document.createElement('div');
+            tab.className = `tab ${isStatic ? 'static': ''}`;
+            tab.id = `tab-${id}`;
+            tab.innerHTML = `${title} ${!isStatic ? `<span class="close-btn" onclick="closeTab('${id}', event)">×</span>`: ''}`;
+
+            tab.onclick = (e) => {
+                if (e.target.classList.contains('close-btn')) return;
+                showPage(id);
+            };
+
+            tabContainer.appendChild(tab);
+            tabs[id] = {
+                title,
+                element: tab
+            };
+        }
+
+        function closeTab(id, event) {
+            if (event) event.stopPropagation();
+
+            const tab = document.getElementById(`tab-${id}`);
+            if (!tab || tab.classList.contains('static')) return;
+
+            tab.remove();
+            delete tabs[id];
+
+            if (activeTabId === id) {
+                showPage('home');
+            }
+        }
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('
