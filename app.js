@@ -17,16 +17,18 @@
   header.innerHTML =
     '<div class="strip"><div class="wrap">' +
     '<span data-ru="— Москва">— Moscow</span>' +
-    '<span class="clock"><span class="dot"></span><b id="clock">--:--:--</b><span>MSK</span></span>' +
+    '<span class="clock"><span class="dot"></span><b data-clock>--:--:--</b><span>MSK</span></span>' +
     "</div></div>" +
     '<div class="wrap bar">' +
     '<a class="brand" href="index.html"><b>IgnoringLynx</b></a>' +
-    "<nav>" +
+    '<button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>' +
+    '<nav id="nav">' +
     items.map((i) => '<a href="' + i.href + '" data-p="' + i.p + '" data-key="' + i.key + '" title="' + i.key + '" data-ru="' + i.ru + '">' + i.en + "</a>").join("") +
+    '<div class="menu-tools">' +
     '<button class="theme" id="theme" type="button" aria-label="Toggle theme" data-ru="Тема">Theme</button>' +
     '<button class="theme" id="lang" type="button" aria-label="Switch language">RU</button>' +
-    "</nav></div>";
-  document.body.prepend(header);
+    '<span class="menu-meta"><span data-ru="— Москва">— Moscow</span><b data-clock>--:--:--</b><span>MSK</span></span>' +
+    "</div></nav></div>";  document.body.prepend(header);
 
   const footer = document.createElement("footer");
   footer.innerHTML =
@@ -39,9 +41,12 @@
     "</div>";
   document.body.append(footer);
 
-  const clock = document.getElementById("clock");
+  const clocks = [...document.querySelectorAll("[data-clock]")];
   const fmt = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Moscow", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
-  function tick() { clock.textContent = fmt.format(new Date()); }
+  function tick() {
+    const v = fmt.format(new Date());
+    clocks.forEach((c) => { c.textContent = v; });
+  }
   tick();
   setInterval(tick, 1000);
 
@@ -217,7 +222,7 @@
       main.innerHTML = next.innerHTML;
       curPath = normPath(url.pathname);
       if (push) history.pushState({}, "", url.pathname + url.search + url.hash);
-      header.classList.remove("hide");
+      header.classList.remove("compact");
       window.scrollTo({ top: 0, behavior: "instant" });
       ensureScripts(doc);
       initPage();
@@ -258,6 +263,19 @@
     navigate(location.href, false);
   });
 
+  const burger = document.getElementById("burger");
+  function setMenu(open) {
+    header.classList.toggle("open", open);
+    document.body.classList.toggle("menu-open", open);
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) header.classList.remove("compact");
+    else if (header.contains(document.activeElement)) document.activeElement.blur();
+  }
+  burger.addEventListener("click", () => setMenu(!header.classList.contains("open")));
+  addEventListener("pagechange", () => setMenu(false));
+  addEventListener("resize", () => { if (window.innerWidth > 720) setMenu(false); });
+  addEventListener("keydown", (e) => { if (e.key === "Escape" && header.classList.contains("open")) setMenu(false); });
+
   let lastY = window.scrollY;
   let ticking = false;
   addEventListener("scroll", () => {
@@ -267,19 +285,23 @@
       ticking = false;
       const y = Math.max(0, window.scrollY);
       const dy = y - lastY;
-      if (y < 80) {
-        header.classList.remove("hide");
+      if (header.classList.contains("open")) {
+        lastY = y;
+      } else if (y < 80) {
+        header.classList.remove("compact");
         lastY = y;
       } else if (dy > 8) {
-        if (!header.contains(document.activeElement)) header.classList.add("hide");
+        const f = document.activeElement;
+        const typing = f && header.contains(f) && f.matches(":focus-visible");
+        if (!typing) header.classList.add("compact");
         lastY = y;
       } else if (dy < -8) {
-        header.classList.remove("hide");
+        header.classList.remove("compact");
         lastY = y;
       }
     });
   }, { passive: true });
-  header.addEventListener("focusin", () => header.classList.remove("hide"));
+  header.addEventListener("focusin", (e) => { if (e.target.matches(":focus-visible")) header.classList.remove("compact"); });
 
   const secret = ["KeyL", "KeyY", "KeyN", "KeyX"];
   let typed = [];
