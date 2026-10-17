@@ -222,7 +222,7 @@
       main.innerHTML = next.innerHTML;
       curPath = normPath(url.pathname);
       if (push) history.pushState({}, "", url.pathname + url.search + url.hash);
-      header.classList.remove("compact");
+      header.classList.remove("hide");
       window.scrollTo({ top: 0, behavior: "instant" });
       ensureScripts(doc);
       initPage();
@@ -240,6 +240,7 @@
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     const a = e.target.closest("a[href]");
     if (!a || a.target === "_blank" || a.hasAttribute("download")) return;
+    if (a.closest("nav")) setMenu(false);
     const href = a.getAttribute("href");
     if (/^(mailto:|tel:|javascript:)/i.test(href)) return;
     const url = new URL(href, location.href);
@@ -268,7 +269,7 @@
     header.classList.toggle("open", open);
     document.body.classList.toggle("menu-open", open);
     burger.setAttribute("aria-expanded", open ? "true" : "false");
-    if (open) header.classList.remove("compact");
+    if (open) header.classList.remove("hide");
     else if (header.contains(document.activeElement)) document.activeElement.blur();
   }
   burger.addEventListener("click", () => setMenu(!header.classList.contains("open")));
@@ -288,20 +289,20 @@
       if (header.classList.contains("open")) {
         lastY = y;
       } else if (y < 80) {
-        header.classList.remove("compact");
+        header.classList.remove("hide");
         lastY = y;
       } else if (dy > 8) {
         const f = document.activeElement;
         const typing = f && header.contains(f) && f.matches(":focus-visible");
-        if (!typing) header.classList.add("compact");
+        if (!typing) header.classList.add("hide");
         lastY = y;
       } else if (dy < -8) {
-        header.classList.remove("compact");
+        header.classList.remove("hide");
         lastY = y;
       }
     });
   }, { passive: true });
-  header.addEventListener("focusin", (e) => { if (e.target.matches(":focus-visible")) header.classList.remove("compact"); });
+  header.addEventListener("focusin", (e) => { if (e.target.matches(":focus-visible")) header.classList.remove("hide"); });
 
   const secret = ["KeyL", "KeyY", "KeyN", "KeyX"];
   let typed = [];
