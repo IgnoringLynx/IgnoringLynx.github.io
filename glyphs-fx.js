@@ -62,11 +62,11 @@
     c.textAlign = "center";
     c.textBaseline = "middle";
     let size = mh;
-    c.font = "800 " + size + 'px "Geist", Arial, sans-serif';
+    c.font = "700 " + size + 'px "Fira Code", Arial, sans-serif';
     const w = c.measureText("IL").width;
     if (w > mw * 0.92) {
       size = Math.floor(size * (mw * 0.92) / w);
-      c.font = "800 " + size + 'px "Geist", Arial, sans-serif';
+      c.font = "700 " + size + 'px "Fira Code", Arial, sans-serif';
     }
     c.fillText("IL", mw / 2, mh / 2 + size * 0.04);
     const data = c.getImageData(0, 0, mw, mh).data;
@@ -279,7 +279,7 @@
     const is = iconStrength(now);
     const sc = Math.max(0, 1 - (now - scrambleAt) / SCRAMBLE_MS);
     ctx.clearRect(0, 0, W, H);
-    ctx.font = (cell - 1) + 'px "Geist Mono", ui-monospace, Consolas, monospace';
+    ctx.font = (cell - 1) + 'px "Fira Code", ui-monospace, Consolas, monospace';
     ctx.textBaseline = "top";
     const left = lynxUntil - now;
     const k = left > 0 ? Math.min(1, (LYNX_MS - left) / 500, left / 2200) : 0;
@@ -390,7 +390,7 @@
     if (!reduce) requestAnimationFrame(loop);
   };
   if (document.fonts && document.fonts.load) {
-    Promise.all([document.fonts.load("800 20px Geist"), document.fonts.load("13px \"Geist Mono\"")]).then(start, start);
+    Promise.all([document.fonts.load("700 20px \"Fira Code\""), document.fonts.load("13px \"Fira Code\"")]).then(start, start);
   } else {
     start();
   }
